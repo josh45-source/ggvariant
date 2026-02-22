@@ -1,0 +1,19 @@
+##fileformat=VCFv4.2
+##FILTER=<ID=PASS,Description="All filters passed">
+##INFO=<ID=ANN,Number=.,Type=String,Description="Functional annotations: Allele|Annotation|Annotation_Impact|Gene_Name">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	TUMOR_S1	TUMOR_S2
+chr17	7577120	.	C	T	250	PASS	ANN=T|missense_variant|MODERATE|TP53	GT	0/1	0/0
+chr17	7577538	.	G	A	180	PASS	ANN=A|missense_variant|MODERATE|TP53	GT	0/0	0/1
+chr17	7578210	.	G	T	95	PASS	ANN=T|stop_gained|HIGH|TP53	GT	0/1	0/1
+chr17	7579472	.	A	G	310	PASS	ANN=G|synonymous_variant|LOW|TP53	GT	0/1	0/0
+chr13	32907420	.	A	T	200	PASS	ANN=T|missense_variant|MODERATE|BRCA2	GT	0/0	0/1
+chr13	32914437	.	G	A	175	PASS	ANN=A|frameshift_variant|HIGH|BRCA2	GT	0/1	0/0
+chr17	41244000	.	AT	A	310	PASS	ANN=A|frameshift_variant|HIGH|BRCA1	GT	0/1	0/1
+chr7	55191822	.	C	T	280	PASS	ANN=T|missense_variant|MODERATE|EGFR	GT	0/0	0/1
+chr7	55242465	.	C	A	90	PASS	ANN=A|synonymous_variant|LOW|EGFR	GT	0/1	0/0
+chr12	25398281	.	C	A	190	PASS	ANN=A|missense_variant|MODERATE|KRAS	GT	0/1	0/1
+chr12	25380276	.	G	T	220	PASS	ANN=T|missense_variant|MODERATE|KRAS	GT	0/0	0/1
+chr3	178936091	.	A	G	300	PASS	ANN=G|missense_variant|MODERATE|PIK3CA	GT	0/1	0/0
+chr3	178952085	.	G	A	165	PASS	ANN=A|stop_gained|HIGH|PIK3CA	GT	0/0	0/1
+chr9	21971218	.	G	A	240	PASS	ANN=A|splice_site_variant|HIGH|CDKN2A	GT	0/1	0/1
+chr10	89692905	.	C	T	190	PASS	ANN=T|missense_variant|MODERATE|PTEN	GT	0/1	0/0
