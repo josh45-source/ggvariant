@@ -26,6 +26,6 @@ Suggests:
     knitr,
     rmarkdown
 Config/testthat/edition: 3
-URL: https://github.com/yourname/ggvariant
-BugReports: https://github.com/yourname/ggvariant/issues
+URL: https://github.com/josh45-source/ggvariant
+BugReports: https://github.com/josh45-source/ggvariant/issues
 VignetteBuilder: knitr
