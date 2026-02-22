@@ -11,8 +11,8 @@ A simple, opinionated toolkit for visualizing genomic variant data using a ggplo
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/yourname/ggvariant}
-  \item Report bugs at \url{https://github.com/yourname/ggvariant/issues}
+  \item \url{https://github.com/josh45-source/ggvariant}
+  \item Report bugs at \url{https://github.com/josh45-source/ggvariant/issues}
 }
 
 }
