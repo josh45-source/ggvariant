@@ -2,8 +2,8 @@ Package: ggvariant
 Title: Tidy, ggplot2-Native Visualization for Genomic Variants
 Version: 0.1.0
 Authors@R: 
-    person("Your", "AYO JOASH JOSHUA", email = "joashjoshua789@gmail.com", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0000-0000-0000"))
+    person("Your", "JOASH JOSHUA AYO", email = "joashjoshua789@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0009-0007-1642-0172"))
 Description: A simple, opinionated toolkit for visualizing genomic variant data
     using a ggplot2-native grammar. Accepts VCF files or plain data frames and
     produces publication-ready lollipop plots, consequence summaries, mutational
@@ -22,7 +22,10 @@ Imports:
 Suggests:
     plotly (>= 4.10.0),
     testthat (>= 3.0.0),
-    covr
+    covr,
+    knitr,
+    rmarkdown
 Config/testthat/edition: 3
 URL: https://github.com/yourname/ggvariant
 BugReports: https://github.com/yourname/ggvariant/issues
+VignetteBuilder: knitr

@@ -1,0 +1,285 @@
+---
+title: "Introduction to ggvariant"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to ggvariant}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse  = TRUE,
+  comment   = "#>",
+  fig.width = 7,
+  fig.height = 4.5,
+  out.width = "100%"
+)
+```
+
+## Overview
+
+`ggvariant` provides a simple, ggplot2-native toolkit for visualising genomic
+variant data. Whether you are a wet-lab biologist working from an Excel export
+or an experienced bioinformatician loading VCF files directly, `ggvariant`
+gets you to a publication-ready plot in just a few lines of R.
+
+This vignette walks through a complete workflow:
+
+1. Loading variant data (VCF file or data frame)
+2. Exploring variants with a lollipop plot
+3. Summarising consequences across samples and genes
+4. Visualising the mutational spectrum
+
+---
+
+## Installation
+
+```{r install, eval = FALSE}
+# Install from CRAN
+install.packages("ggvariant")
+
+# Or install the development version from GitHub
+# remotes::install_github("yourname/ggvariant")
+```
+
+```{r load}
+library(ggvariant)
+```
+
+---
+
+## Loading variant data
+
+### Option 1: From a VCF file
+
+`read_vcf()` parses standard VCF v4.x files — including gzipped files and
+multi-sample VCFs — and returns a tidy data frame called a `gvf` object.
+Functional annotations from SnpEff (`ANN`) or VEP (`CSQ`) INFO fields are
+extracted automatically.
+
+```{r read-vcf}
+vcf_file <- system.file("extdata", "example.vcf", package = "ggvariant")
+variants  <- read_vcf(vcf_file)
+
+head(variants)
+```
+
+The result is a plain data frame with one row per variant per sample, with
+columns for chromosome, position, alleles, consequence, gene, and sample name.
+Because it is a standard data frame, you can filter, subset, and manipulate it
+with any R tools you already know.
+
+### Option 2: From a data frame or Excel export
+
+If your variants are in a spreadsheet or the output of another tool, use
+`coerce_variants()` to map your column names onto the format `ggvariant`
+expects. You only need to specify the columns that differ from the defaults.
+
+```{r coerce, eval = FALSE}
+# Example: data exported from a custom pipeline or Excel
+my_df <- read.csv("my_variants.csv")
+
+variants <- coerce_variants(my_df,
+  chrom       = "Chr",
+  pos         = "Position",
+  ref         = "Ref_Allele",
+  alt         = "Alt_Allele",
+  consequence = "Variant_Class",
+  gene        = "Hugo_Symbol",
+  sample      = "Tumor_Sample"
+)
+```
+
+Any extra columns in your data frame are carried over automatically, so you
+never lose information.
+
+---
+
+## Lollipop plot
+
+The lollipop plot shows where variants fall along a gene, coloured by
+consequence. It is particularly useful for identifying mutational hotspots —
+positions that are recurrently mutated across samples.
+
+```{r lollipop-basic}
+plot_lollipop(variants, gene = "TP53")
+```
+
+### Adding protein domain annotations
+
+Overlaying known protein domains helps interpret *where* variants fall
+functionally. Provide a data frame with `name`, `start`, and `end` columns
+(in amino acid coordinates):
+
+```{r lollipop-domains}
+tp53_domains <- data.frame(
+  name  = c("Transactivation", "DNA-binding", "Tetramerization"),
+  start = c(1,   102, 323),
+  end   = c(67,  292, 356)
+)
+
+# Scale genomic positions to protein coordinates
+tp53 <- variants[variants$gene == "TP53", ]
+tp53$pos <- round(
+  (tp53$pos - min(tp53$pos)) /
+  (max(tp53$pos) - min(tp53$pos)) * 393
+) + 1
+
+plot_lollipop(tp53, gene = "TP53",
+              domains        = tp53_domains,
+              protein_length = 393)
+```
+
+### Colouring by sample
+
+To see which sample each variant comes from instead of its consequence,
+change `color_by`:
+
+```{r lollipop-sample}
+plot_lollipop(variants, gene = "TP53", color_by = "sample")
+```
+
+### Customising further
+
+Because every `ggvariant` function returns a standard `ggplot` object, you
+can add any `ggplot2` layers on top:
+
+```{r lollipop-custom}
+library(ggplot2)
+
+plot_lollipop(variants, gene = "KRAS") +
+  labs(subtitle = "KRAS mutations across TUMOR_S1 and TUMOR_S2") +
+  theme(legend.position = "bottom")
+```
+
+---
+
+## Consequence summary
+
+`plot_consequence_summary()` gives an overview of what *types* of variants are
+present — missense, frameshift, synonymous, and so on — broken down by sample
+or gene.
+
+### By sample
+
+```{r consequence-sample}
+plot_consequence_summary(variants)
+```
+
+Each bar represents one sample, stacked by consequence type. This immediately
+reveals whether two samples have similar or very different mutational profiles.
+
+### Proportional view
+
+To compare samples with different total variant counts fairly, use
+`position = "fill"`:
+
+```{r consequence-fill}
+plot_consequence_summary(variants, position = "fill")
+```
+
+### By gene
+
+To see which genes carry the most variants and what types they are:
+
+```{r consequence-gene}
+plot_consequence_summary(variants, group_by = "gene", top_n = 7)
+```
+
+TP53 stands out immediately as the most mutated gene, a pattern typical of
+many cancer cohorts.
+
+---
+
+## Mutational spectrum
+
+The mutational spectrum shows the relative frequency of each of the six
+single-base substitution (SBS) classes — C>A, C>G, C>T, T>A, T>C, T>G —
+normalised to the pyrimidine base (so A>G is represented as T>C, matching
+COSMIC convention).
+
+```{r spectrum}
+plot_variant_spectrum(variants)
+```
+
+A dominant C>T signature, as seen here, is characteristic of UV damage or
+age-related deamination — common in many tumour types.
+
+### Faceted by sample
+
+To compare mutational processes between samples side by side:
+
+```{r spectrum-facet}
+plot_variant_spectrum(variants, facet_by_sample = TRUE)
+```
+
+---
+
+## Interactive plots
+
+All plot functions support `interactive = TRUE`, which wraps the output in
+a `plotly` interactive plot. This is ideal for sharing with collaborators
+who don't use R — simply save as an HTML file and send it.
+
+```{r interactive, eval = FALSE}
+# Requires the plotly package
+# install.packages("plotly")
+
+p <- plot_lollipop(variants, gene = "TP53", interactive = TRUE)
+p  # opens in RStudio viewer or browser
+
+# Save as a standalone HTML file
+htmlwidgets::saveWidget(p, "TP53_lollipop.html")
+```
+
+---
+
+## Colour palettes and theming
+
+### Access the built-in palettes
+
+```{r palette}
+# See the consequence colour palette
+gv_palette("consequence")
+
+# See the COSMIC SBS spectrum palette
+gv_palette("spectrum")
+```
+
+### Apply the theme to your own plots
+
+`theme_ggvariant()` is exported so you can apply the same clean look to
+any ggplot2 figure in your analysis:
+
+```{r theme, eval = FALSE}
+ggplot(my_data, aes(x, y)) +
+  geom_point() +
+  theme_ggvariant()
+```
+
+---
+
+## Summary
+
+| Function | Input | Output |
+|---|---|---|
+| `read_vcf()` | VCF file path | `gvf` data frame |
+| `coerce_variants()` | Any data frame | `gvf` data frame |
+| `plot_lollipop()` | `gvf` + gene name | Lollipop `ggplot` |
+| `plot_consequence_summary()` | `gvf` | Stacked bar `ggplot` |
+| `plot_variant_spectrum()` | `gvf` | SBS spectrum `ggplot` |
+| `gv_palette()` | palette type | Named colour vector |
+| `theme_ggvariant()` | — | `ggplot2` theme |
+
+All plot functions return a `ggplot` object — extend them freely with
+standard `ggplot2` syntax, and use `interactive = TRUE` with any of them
+to get a `plotly` interactive version.
+
+---
+
+## Session information
+
+```{r session}
+sessionInfo()
+```
