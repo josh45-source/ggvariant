@@ -17,6 +17,6 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Your JOASH JOSHUA AYO \email{joashjoshua789@gmail.com} (\href{https://orcid.org/0009-0007-1642-0172}{ORCID})
+\strong{Maintainer}: Joash Joshua Ayo \email{joashjoshua789@gmail.com} (\href{https://orcid.org/0009-0007-1642-0172}{ORCID})
 
 }

@@ -2,7 +2,7 @@ Package: ggvariant
 Title: Tidy, ggplot2-Native Visualization for Genomic Variants
 Version: 0.1.0
 Authors@R: 
-    person("Your", "JOASH JOSHUA AYO", email = "joashjoshua789@gmail.com", role = c("aut", "cre"),
+    person("Joash Joshua", "Ayo", email = "joashjoshua789@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0007-1642-0172"))
 Description: A simple, opinionated toolkit for visualizing genomic variant data
     using a ggplot2-native grammar. Accepts VCF files or plain data frames and
