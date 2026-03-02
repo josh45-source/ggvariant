@@ -1,0 +1,11 @@
+bibentry(
+  bibtype  = "Manual",
+  title    = "{ggvariant}: Tidy, {ggplot2}-Native Visualization for Genomic Variants",
+  author   = person("Joash Joshua", "Ayo",
+                     email = "joashjoshua789@gmail.com",
+                     comment = c(ORCID = "0009-0007-1642-0172")),
+  year     = "2026",
+  note     = "R package version 0.1.0",
+  url      = "https://CRAN.R-project.org/package=ggvariant",
+  doi      = "10.32614/CRAN.package.ggvariant"
+)

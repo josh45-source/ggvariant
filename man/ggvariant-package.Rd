@@ -6,7 +6,7 @@
 \alias{ggvariant}
 \title{ggvariant: Tidy, ggplot2-Native Visualization for Genomic Variants}
 \description{
-A simple, opinionated toolkit for visualizing genomic variant data using a ggplot2-native grammar. Accepts VCF files or plain data frames and produces publication-ready lollipop plots, consequence summaries, mutational spectrum charts, and cohort-level comparisons with minimal code. Designed for both wet-lab biologists and experienced bioinformaticians.
+A simple, opinionated toolkit for visualizing genomic variant data using a 'ggplot2'-native grammar. Accepts VCF files or plain data frames and produces publication-ready lollipop plots, consequence summaries, mutational spectrum charts, and cohort-level comparisons with minimal code. Designed for both wet-lab biologists and experienced bioinformaticians.
 }
 \seealso{
 Useful links:
