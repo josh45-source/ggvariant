@@ -200,3 +200,11 @@ changes. All contributions should include tests.
 ## License
 
 MIT
+
+## Citation
+
+If you use `ggvariant` in your research, please cite:
+
+Ayo, J. J. (2026). *ggvariant: Tidy, ggplot2-native visualization for 
+genomic variants* (R package version 0.1.0). CRAN. 
+https://doi.org/10.32614/CRAN.package.ggvariant
