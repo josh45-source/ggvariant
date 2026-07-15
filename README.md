@@ -211,6 +211,6 @@ https://doi.org/10.32614/CRAN.package.ggvariant
 
 ## Support This Project
 
-If ggvariant has been useful to you, please consider sponsoring its development on Patreon — it helps keep the project maintained.
+If ggvariant is useful in your research or work, consider supporting its development on Patreon. Your sponsorship keeps this project free and actively maintained.
 
-[![Support on Patreon](https://img.shields.io/badge/Patreon-Support-f96854?logo=patreon&logoColor=white)](https://www.patreon.com/cw/Joshfarm)
+[![Support on Patreon](https://img.shields.io/badge/Patreon-Support-f96854?logo=patreon&logoColor=white)](https://www.patreon.com/c/Joshfarm/membership)
