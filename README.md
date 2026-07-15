@@ -208,3 +208,9 @@ If you use `ggvariant` in your research, please cite:
 Ayo, J. J. (2026). *ggvariant: Tidy, ggplot2-native visualization for 
 genomic variants* (R package version 0.1.0). CRAN. 
 https://doi.org/10.32614/CRAN.package.ggvariant
+
+## Support This Project
+
+If ggvariant has been useful to you, please consider sponsoring its development on Patreon — it helps keep the project maintained.
+
+[![Support on Patreon](https://img.shields.io/badge/Patreon-Support-f96854?logo=patreon&logoColor=white)](https://www.patreon.com/cw/Joshfarm)
