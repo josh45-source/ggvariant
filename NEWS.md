@@ -1,4 +1,4 @@
-# ggvariant (development version)
+# ggvariant 0.1.1
 
 * `plot_variant_spectrum()`'s `context` and `genome` arguments, and
   `read_vcf()`'s `info_fields` argument, now abort with an informative

@@ -7,3 +7,4 @@
 ^CRAN-SUBMISSION$
 ^\.github$
 ^codecov\.yml$
+^AUDIT\.md$

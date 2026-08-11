@@ -1,6 +1,6 @@
 Package: ggvariant
 Title: Tidy, 'ggplot2'-Native Visualization for Genomic Variants
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: 
     person("Joash Joshua", "Ayo", email = "joashjoshua789@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0007-1642-0172"))
