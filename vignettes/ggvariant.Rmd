@@ -1,8 +1,8 @@
 ---
-title: "Introduction to ggvariant"
+title: "Getting started with ggvariant"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction to ggvariant}
+  %\VignetteIndexEntry{Getting started with ggvariant}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

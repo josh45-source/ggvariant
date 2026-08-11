@@ -1,4 +1,4 @@
-# ggvariant <img src="man/figures/logo.png" align="right" height="120" alt=""/>
+# ggvariant <a href="https://josh45-source.github.io/ggvariant/"><img src="man/figures/logo.png" align="right" height="120" alt="ggvariant website" /></a>
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/josh45-source/ggvariant/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/josh45-source/ggvariant/actions/workflows/R-CMD-check.yaml)
