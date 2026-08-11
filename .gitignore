@@ -5,3 +5,7 @@
 inst/doc
 /doc/
 /Meta/
+Rplot*.png
+Rplot*.pdf
+*.Rcheck/
+ggvariant_*.tar.gz
