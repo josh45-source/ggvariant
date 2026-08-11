@@ -22,14 +22,15 @@ Indels are automatically excluded.}
 \item{sample}{Character. Sample name to filter on. \code{NULL} uses all variants
 pooled (or facets by sample if \code{facet_by_sample = TRUE}).}
 
-\item{context}{Logical. If \code{TRUE}, shows 96-trinucleotide context bars
-(requires a \code{context} column or a reference genome via \code{genome}).
-Default \code{FALSE}.}
+\item{context}{Logical. 96-trinucleotide context bars are not yet
+implemented; passing \code{TRUE} aborts with an error. Default \code{FALSE}, which
+produces the 6-class SBS spectrum. See
+\url{https://github.com/josh45-source/ggvariant/issues/1}.}
 
-\item{genome}{A \code{BSgenome} object or genome abbreviation string (e.g.
-\code{"hg38"}) used to extract trinucleotide context when \code{context = TRUE}
-and no \code{context} column is present. Requires the \code{BSgenome} and
-\code{Biostrings} packages.}
+\item{genome}{Not yet implemented; passing a non-\code{NULL} value aborts with
+an error. Reserved for future \code{BSgenome}-based trinucleotide context
+extraction. See
+\url{https://github.com/josh45-source/ggvariant/issues/1}.}
 
 \item{facet_by_sample}{Logical. If \code{TRUE}, facets the plot by sample.
 Default \code{FALSE}.}

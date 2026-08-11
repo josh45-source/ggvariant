@@ -15,9 +15,9 @@ keeps all samples.}
 \item{pass_only}{Logical. If \code{TRUE} (default), only variants with \code{FILTER}
 equal to \code{"PASS"} or \code{"."} are retained.}
 
-\item{info_fields}{Character vector of INFO field names to expand into
-columns. \code{NULL} keeps none. Use \code{"all"} to expand everything (may be slow
-for large files).}
+\item{info_fields}{Not yet implemented; passing a non-\code{NULL} value aborts
+with an error. Reserved for future INFO field expansion. See
+\url{https://github.com/josh45-source/ggvariant/issues/2}.}
 }
 \value{
 A \code{gvf} (genomic variant frame) — a \code{data.frame} with columns:

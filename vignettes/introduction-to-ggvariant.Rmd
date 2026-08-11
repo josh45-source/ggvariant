@@ -228,9 +228,6 @@ who don't use R — simply save as an HTML file and send it.
 
 p <- plot_lollipop(variants, gene = "TP53", interactive = TRUE)
 p  # opens in RStudio viewer or browser
-
-# Save as a standalone HTML file
-htmlwidgets::saveWidget(p, "TP53_lollipop.html")
 ```
 
 ---

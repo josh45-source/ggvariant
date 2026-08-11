@@ -1,8 +1,8 @@
 # ggvariant <img src="man/figures/logo.png" align="right" height="120" alt=""/>
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/josh45-source/ggvariant/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/josh45-source/ggvariant/actions)
-[![Codecov](https://app.codecov.io/gh/josh45-source/ggvariant/branch/main/graph/badge.svg)](https://app.codecov.io/gh/josh45-source/ggvariant)
+[![R-CMD-check](https://github.com/josh45-source/ggvariant/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/josh45-source/ggvariant/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/josh45-source/ggvariant/branch/master/graph/badge.svg)](https://app.codecov.io/gh/josh45-source/ggvariant)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
