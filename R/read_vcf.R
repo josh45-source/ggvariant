@@ -10,9 +10,9 @@
 #'   keeps all samples.
 #' @param pass_only Logical. If `TRUE` (default), only variants with `FILTER`
 #'   equal to `"PASS"` or `"."` are retained.
-#' @param info_fields Character vector of INFO field names to expand into
-#'   columns. `NULL` keeps none. Use `"all"` to expand everything (may be slow
-#'   for large files).
+#' @param info_fields Not yet implemented; passing a non-`NULL` value aborts
+#'   with an error. Reserved for future INFO field expansion. See
+#'   <https://github.com/josh45-source/ggvariant/issues/2>.
 #'
 #' @return A `gvf` (genomic variant frame) — a `data.frame` with columns:
 #'   \describe{
@@ -38,6 +38,15 @@ read_vcf <- function(path,
                      samples    = NULL,
                      pass_only  = TRUE,
                      info_fields = NULL) {
+
+  if (!is.null(info_fields)) {
+    cli::cli_abort(c(
+      "INFO field expansion is not yet implemented.",
+      "i" = "{.arg info_fields} is currently ignored.",
+      "i" = "Track progress at \\
+             {.url https://github.com/josh45-source/ggvariant/issues/2}."
+    ))
+  }
 
   path <- normalizePath(path, mustWork = TRUE)
   cli::cli_progress_step("Reading VCF: {.file {basename(path)}}")
@@ -98,8 +107,7 @@ read_vcf <- function(path,
 
   # Pivot samples (if FORMAT/GT columns present)
   if (length(sample_names_all) > 0) {
-    fmt_col <- if ("FORMAT" %in% colnames(df)) df$FORMAT else NULL
-    out <- .pivot_samples(out, df, sample_names_all, fmt_col, samples)
+    out <- .pivot_samples(out, df, sample_names_all, samples)
   }
 
   class(out) <- c("gvf", "data.frame")
@@ -274,7 +282,7 @@ coerce_variants <- function(x,
   out
 }
 
-.pivot_samples <- function(out, df, sample_names_all, fmt_col, keep_samples) {
+.pivot_samples <- function(out, df, sample_names_all, keep_samples) {
   if (!is.null(keep_samples))
     sample_names_all <- intersect(sample_names_all, keep_samples)
   if (length(sample_names_all) == 0) return(out)

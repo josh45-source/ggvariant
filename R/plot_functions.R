@@ -141,13 +141,14 @@ plot_consequence_summary <- function(variants,
 #'   Indels are automatically excluded.
 #' @param sample Character. Sample name to filter on. `NULL` uses all variants
 #'   pooled (or facets by sample if `facet_by_sample = TRUE`).
-#' @param context Logical. If `TRUE`, shows 96-trinucleotide context bars
-#'   (requires a `context` column or a reference genome via `genome`).
-#'   Default `FALSE`.
-#' @param genome A `BSgenome` object or genome abbreviation string (e.g.
-#'   `"hg38"`) used to extract trinucleotide context when `context = TRUE`
-#'   and no `context` column is present. Requires the `BSgenome` and
-#'   `Biostrings` packages.
+#' @param context Logical. 96-trinucleotide context bars are not yet
+#'   implemented; passing `TRUE` aborts with an error. Default `FALSE`, which
+#'   produces the 6-class SBS spectrum. See
+#'   <https://github.com/josh45-source/ggvariant/issues/1>.
+#' @param genome Not yet implemented; passing a non-`NULL` value aborts with
+#'   an error. Reserved for future `BSgenome`-based trinucleotide context
+#'   extraction. See
+#'   <https://github.com/josh45-source/ggvariant/issues/1>.
 #' @param facet_by_sample Logical. If `TRUE`, facets the plot by sample.
 #'   Default `FALSE`.
 #' @param palette Named character vector with names matching substitution
@@ -177,6 +178,23 @@ plot_variant_spectrum <- function(variants,
                                   palette         = NULL,
                                   normalize       = TRUE,
                                   interactive     = FALSE) {
+
+  issue_url <- "https://github.com/josh45-source/ggvariant/issues/1"
+  if (isTRUE(context)) {
+    cli::cli_abort(c(
+      "96-trinucleotide context is not yet implemented.",
+      "i" = "{.arg context} has no effect beyond {.code FALSE}; the \\
+             function always produces the 6-class SBS spectrum.",
+      "i" = "Track progress at {.url {issue_url}}."
+    ))
+  }
+  if (!is.null(genome)) {
+    cli::cli_abort(c(
+      "{.arg genome}-based context extraction is not yet implemented.",
+      "i" = "{.arg genome} is currently ignored.",
+      "i" = "Track progress at {.url {issue_url}}."
+    ))
+  }
 
   variants <- .prepare_variants(variants)
 
