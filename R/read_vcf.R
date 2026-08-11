@@ -259,25 +259,32 @@ coerce_variants <- function(x,
 }
 
 .parse_ann_csq <- function(out, info_vec) {
-  # Attempt to parse VEP CSQ or SnpEff ANN fields
+  # Attempt to parse VEP CSQ or SnpEff ANN fields. Vectorised: every regex
+  # step runs once over the whole vector rather than once per row.
   has_ann <- grepl("ANN=|CSQ=", info_vec)
   if (!any(has_ann)) return(out)
 
-  parsed <- vapply(info_vec, function(info) {
-    m <- regmatches(info, regexpr("(?:ANN|CSQ)=([^;]+)", info))
-    if (length(m) == 0) return(c(gene = NA_character_, csq = NA_character_))
-    val   <- sub("^(?:ANN|CSQ)=", "", m)
-    first <- strsplit(val, ",")[[1]][1]
-    parts <- strsplit(first, "\\|")[[1]]
-    # ANN: [1]=allele [2]=effect [3]=impact [4]=gene
-    # CSQ: order varies; we pick conservatively
-    gene <- if (length(parts) >= 4) parts[4] else NA_character_
-    csq  <- if (length(parts) >= 2) parts[2] else NA_character_
-    c(gene = gene, csq = csq)
-  }, character(2))
+  # regexpr()/regmatches() on a full vector drop non-matching elements from
+  # the result entirely, so results are written back via the match-position
+  # mask rather than assumed to line up positionally. regexpr() returns NA
+  # (not -1) for an NA input string, so the mask must exclude both.
+  m    <- regexpr("(?:ANN|CSQ)=([^;]+)", info_vec, perl = TRUE)
+  mask <- !is.na(m) & m != -1L
+  vals <- rep(NA_character_, length(info_vec))
+  vals[mask] <- regmatches(info_vec, m)
 
-  out$gene[is.na(out$gene)] <- parsed["gene", is.na(out$gene)]
-  csq <- parsed["csq", ]
+  vals  <- sub("^(?:ANN|CSQ)=", "", vals)
+  first <- sub(",.*$", "", vals)          # first comma-separated annotation
+  parts_list <- strsplit(first, "\\|")    # one call for the whole vector
+
+  # ANN: [1]=allele [2]=effect [3]=impact [4]=gene
+  # CSQ: order varies; we pick conservatively.
+  # Out-of-range `[` indexing returns NA, so short/NA entries need no
+  # special-casing here.
+  gene <- vapply(parts_list, `[`, character(1), 4)
+  csq  <- vapply(parts_list, `[`, character(1), 2)
+
+  out$gene[is.na(out$gene)] <- gene[is.na(out$gene)]
   out$consequence <- ifelse(!is.na(csq), csq, out$consequence)
   out
 }
