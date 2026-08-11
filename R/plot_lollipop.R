@@ -43,6 +43,9 @@
 #' )
 #' plot_lollipop(variants, gene = "TP53", domains = tp53_domains)
 #'
+#' @family ggvariant plots
+#' @seealso [plot_consequence_summary()], [plot_variant_spectrum()],
+#'   [gv_palette()]
 #' @export
 plot_lollipop <- function(variants,
                           gene           = NULL,
