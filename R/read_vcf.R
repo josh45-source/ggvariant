@@ -111,6 +111,7 @@ read_vcf <- function(path,
   }
 
   class(out) <- c("gvf", "data.frame")
+  validate_gvf(out)
   cli::cli_progress_done()
   cli::cli_inform(
     "Loaded {nrow(out)} variant record{?s} across \\
@@ -208,6 +209,7 @@ coerce_variants <- function(x,
   if (length(extra)) out <- cbind(out, x[, extra, drop = FALSE])
 
   class(out) <- c("gvf", "data.frame")
+  validate_gvf(out)
   out
 }
 
