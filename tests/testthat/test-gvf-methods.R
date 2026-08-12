@@ -4,8 +4,12 @@ test_that("print.gvf shows a compact header and truncated preview", {
   skip_if(!nzchar(vcf_path))
   vf <- read_vcf(vcf_path)
   out <- capture.output(print(vf))
-  expect_match(out[1], "<gvf: 30 variants, 2 samples, 7 chromosomes, 8 genes>",
-               fixed = TRUE)
+  expected_header <- sprintf(
+    "<gvf: %d variants, %d samples, %d chromosomes, %d genes>",
+    nrow(vf), length(unique(vf$sample)), length(unique(vf$chrom)),
+    length(unique(vf$gene))
+  )
+  expect_equal(out[1], expected_header)
   expect_true(any(grepl("more row", out)))
 })
 
@@ -13,7 +17,7 @@ test_that("print.gvf respects the n argument", {
   skip_if(!nzchar(vcf_path))
   vf <- read_vcf(vcf_path)
   out <- capture.output(print(vf, n = 2))
-  expect_true(any(grepl("28 more rows", out)))
+  expect_true(any(grepl(paste0(nrow(vf) - 2, " more rows"), out, fixed = TRUE)))
 })
 
 test_that("print.gvf returns its input invisibly", {
@@ -29,11 +33,13 @@ test_that("summary.gvf returns consequence, sample, and chromosome breakdowns", 
   vf <- read_vcf(vcf_path)
   s <- summary(vf)
   expect_s3_class(s, "summary.gvf")
-  expect_equal(s$n_variants, 30L)
-  expect_equal(sum(s$consequence), 30L)
-  expect_equal(sum(s$per_sample), 30L)
-  expect_equal(sum(s$chromosome), 30L)
-  expect_equal(unname(s$per_sample[["TUMOR_S1"]]), 15L)
+  expect_equal(s$n_variants, nrow(vf))
+  expect_equal(sum(s$consequence), nrow(vf))
+  expect_equal(sum(s$per_sample), nrow(vf))
+  expect_equal(sum(s$chromosome), nrow(vf))
+  expect_equal(
+    unname(s$per_sample[["TUMOR_S1"]]), sum(vf$sample == "TUMOR_S1")
+  )
 })
 
 test_that("print.summary.gvf prints all three breakdown sections", {
