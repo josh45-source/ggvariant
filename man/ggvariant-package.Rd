@@ -6,12 +6,15 @@
 \alias{ggvariant}
 \title{ggvariant: Tidy, ggplot2-Native Visualization for Genomic Variants}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 A simple, opinionated toolkit for visualizing genomic variant data using a 'ggplot2'-native grammar. Accepts VCF files or plain data frames and produces publication-ready lollipop plots, consequence summaries, mutational spectrum charts, and cohort-level comparisons with minimal code. Designed for both wet-lab biologists and experienced bioinformaticians.
 }
 \seealso{
 Useful links:
 \itemize{
   \item \url{https://github.com/josh45-source/ggvariant}
+  \item \url{https://josh45-source.github.io/ggvariant/}
   \item Report bugs at \url{https://github.com/josh45-source/ggvariant/issues}
 }
 

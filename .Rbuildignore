@@ -9,3 +9,7 @@
 ^codecov\.yml$
 ^AUDIT\.md$
 ^\.devscratch$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^vignettes/articles$
