@@ -41,7 +41,8 @@ classes (\code{"C>A"}, \code{"C>G"}, etc.). \code{NULL} uses COSMIC-style colour
 \item{normalize}{Logical. If \code{TRUE} (default), shows relative proportions.
 If \code{FALSE}, shows raw counts.}
 
-\item{interactive}{Logical. Returns a \code{plotly} object if \code{TRUE}.}
+\item{interactive}{Logical. If \code{TRUE}, returns a \code{plotly} interactive plot
+(requires the \code{plotly} package).}
 }
 \value{
 A \code{ggplot} object.
@@ -62,3 +63,11 @@ plot_variant_spectrum(variants)
 plot_variant_spectrum(variants, facet_by_sample = TRUE)
 
 }
+\seealso{
+\code{\link[=plot_lollipop]{plot_lollipop()}}, \code{\link[=plot_consequence_summary]{plot_consequence_summary()}}, \code{\link[=gv_palette]{gv_palette()}}
+
+Other ggvariant plots: 
+\code{\link{plot_consequence_summary}()},
+\code{\link{plot_lollipop}()}
+}
+\concept{ggvariant plots}

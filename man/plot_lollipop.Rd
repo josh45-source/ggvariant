@@ -71,3 +71,12 @@ tp53_domains <- data.frame(
 plot_lollipop(variants, gene = "TP53", domains = tp53_domains)
 
 }
+\seealso{
+\code{\link[=plot_consequence_summary]{plot_consequence_summary()}}, \code{\link[=plot_variant_spectrum]{plot_variant_spectrum()}},
+\code{\link[=gv_palette]{gv_palette()}}
+
+Other ggvariant plots: 
+\code{\link{plot_consequence_summary}()},
+\code{\link{plot_variant_spectrum}()}
+}
+\concept{ggvariant plots}

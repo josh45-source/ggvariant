@@ -47,4 +47,8 @@ head(variants)
 }
 \seealso{
 \code{\link[=coerce_variants]{coerce_variants()}}, \code{\link[=plot_lollipop]{plot_lollipop()}}, \code{\link[=plot_consequence_summary]{plot_consequence_summary()}}
+
+Other ggvariant input: 
+\code{\link{coerce_variants}()}
 }
+\concept{ggvariant input}

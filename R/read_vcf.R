@@ -32,6 +32,7 @@
 #' variants <- read_vcf(vcf_file)
 #' head(variants)
 #'
+#' @family ggvariant input
 #' @seealso [coerce_variants()], [plot_lollipop()], [plot_consequence_summary()]
 #' @export
 read_vcf <- function(path,
@@ -179,6 +180,8 @@ read_vcf <- function(path,
 #'   sample      = "tumor_sample"
 #' )
 #'
+#' @family ggvariant input
+#' @seealso [read_vcf()]
 #' @export
 coerce_variants <- function(x,
                             chrom       = "chrom",
