@@ -67,6 +67,8 @@ plot_consequence_summary(variants, group_by = "gene", top_n = 10)
 
 Other ggvariant plots: 
 \code{\link{plot_lollipop}()},
+\code{\link{plot_oncoprint}()},
+\code{\link{plot_tmb}()},
 \code{\link{plot_variant_spectrum}()}
 }
 \concept{ggvariant plots}

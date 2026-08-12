@@ -68,6 +68,8 @@ plot_variant_spectrum(variants, facet_by_sample = TRUE)
 
 Other ggvariant plots: 
 \code{\link{plot_consequence_summary}()},
-\code{\link{plot_lollipop}()}
+\code{\link{plot_lollipop}()},
+\code{\link{plot_oncoprint}()},
+\code{\link{plot_tmb}()}
 }
 \concept{ggvariant plots}

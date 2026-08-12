@@ -63,5 +63,11 @@ plot_tmb(variants, sample_order = c("TUMOR_S1", "TUMOR_S2"))
 }
 \seealso{
 \code{\link[=plot_oncoprint]{plot_oncoprint()}}, \code{\link[=gv_palette]{gv_palette()}}
+
+Other ggvariant plots: 
+\code{\link{plot_consequence_summary}()},
+\code{\link{plot_lollipop}()},
+\code{\link{plot_oncoprint}()},
+\code{\link{plot_variant_spectrum}()}
 }
 \concept{ggvariant plots}

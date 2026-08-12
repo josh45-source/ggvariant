@@ -1,29 +1,28 @@
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
+0 errors | 0 warnings | 0 notes
 
-One NOTE was observed locally:
+## Summary of changes
 
-  * checking for future file timestamps ... NOTE
-    unable to verify current time
+ggvariant 0.2.0 is a minor release. Highlights:
 
-This is an environmental NOTE from a failed outbound query to a time
-verification service; it is not caused by anything in the package and did
-not reproduce consistently across repeated local check runs.
+  * New `plot_oncoprint()` / `plot_waterfall()` (gene-by-sample mutation
+    matrix) and `plot_tmb()` (tumour mutational burden) plots.
+  * New `print.gvf()` / `summary.gvf()` methods.
+  * Fixed a correctness bug (present since the 0.1.0 release on CRAN):
+    `read_vcf()`'s internal sample-pivoting incorrectly attached a variant
+    to every sample regardless of its actual genotype, rather than only to
+    samples with a non-reference allele. This affected every per-sample
+    plot on a multi-sample VCF with mixed genotypes.
+  * `plot_variant_spectrum()`'s `context`/`genome` arguments and
+    `read_vcf()`'s `info_fields` argument, previously documented but
+    silently ignored, now abort with an informative error rather than
+    doing nothing.
+  * Performance: VCF INFO-field parsing is now vectorised
+    (~8.75x faster in isolation on a 100k-record synthetic VCF).
 
-## This is a patch release
+Full details in NEWS.md.
 
-ggvariant 0.1.1 fixes two documented-but-unimplemented arguments discovered
-after the 0.1.0 release:
+## Downstream dependencies
 
-  * `plot_variant_spectrum()`'s `context` and `genome` arguments, and
-    `read_vcf()`'s `info_fields` argument, were fully documented (including
-    a claimed BSgenome/Biostrings dependency for `genome`) but never read by
-    their function bodies. A call such as
-    `plot_variant_spectrum(x, context = TRUE)` silently returned the default
-    6-class plot with no error or warning, while the caller believed they
-    had requested a 96-trinucleotide-context plot. Each now aborts with an
-    informative error until the feature is implemented.
-
-This release also removes several stray scratch files that had been
-accidentally committed to the package tarball.
+There are no downstream dependencies for this package.

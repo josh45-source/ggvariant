@@ -102,5 +102,11 @@ plot_oncoprint(variants, top_n = 5, annotation = clinical)
 }
 \seealso{
 \code{\link[=plot_tmb]{plot_tmb()}}, \code{\link[=plot_consequence_summary]{plot_consequence_summary()}}, \code{\link[=gv_palette]{gv_palette()}}
+
+Other ggvariant plots: 
+\code{\link{plot_consequence_summary}()},
+\code{\link{plot_lollipop}()},
+\code{\link{plot_tmb}()},
+\code{\link{plot_variant_spectrum}()}
 }
 \concept{ggvariant plots}

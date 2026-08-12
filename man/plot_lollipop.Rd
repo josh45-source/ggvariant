@@ -77,6 +77,8 @@ plot_lollipop(variants, gene = "TP53", domains = tp53_domains)
 
 Other ggvariant plots: 
 \code{\link{plot_consequence_summary}()},
+\code{\link{plot_oncoprint}()},
+\code{\link{plot_tmb}()},
 \code{\link{plot_variant_spectrum}()}
 }
 \concept{ggvariant plots}
