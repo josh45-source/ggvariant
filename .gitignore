@@ -9,3 +9,4 @@ Rplot*.png
 Rplot*.pdf
 *.Rcheck/
 ggvariant_*.tar.gz
+.devscratch/
