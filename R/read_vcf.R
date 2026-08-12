@@ -48,6 +48,8 @@ read_vcf <- function(path,
     ))
   }
 
+  if (!file.exists(path))
+    cli::cli_abort("File not found: {.file {path}}.")
   path <- normalizePath(path, mustWork = TRUE)
   cli::cli_progress_step("Reading VCF: {.file {basename(path)}}")
 
@@ -62,12 +64,28 @@ read_vcf <- function(path,
 
   # Parse sample names from #CHROM header
   col_header <- tail(header_lines[grepl("^#CHROM", header_lines)], 1)
+  if (length(col_header) == 0L)
+    cli::cli_abort(
+      "Malformed VCF: no {.code #CHROM} header line found in \\
+       {.file {basename(path)}}."
+    )
   col_names  <- strsplit(sub("^#", "", col_header), "\t")[[1]]
   fixed_cols <- c("CHROM", "POS", "ID", "REF", "ALT", "QUAL", "FILTER", "INFO")
   sample_names_all <- setdiff(col_names, c(fixed_cols, "FORMAT"))
 
   # Parse body
-  mat <- do.call(rbind, strsplit(data_lines, "\t"))
+  split_lines <- strsplit(data_lines, "\t")
+  n_expected  <- length(col_names)
+  bad         <- which(lengths(split_lines) != n_expected)
+  if (length(bad) > 0)
+    cli::cli_abort(
+      "Malformed VCF: {cli::qty(length(bad))} data line{?s} {bad} of \\
+       {.file {basename(path)}} {cli::qty(length(bad))} ha{?s/ve} the \\
+       wrong number of tab-separated fields (expected {n_expected}, \\
+       matching the {.code #CHROM} header)."
+    )
+
+  mat <- do.call(rbind, split_lines)
   colnames(mat) <- col_names[seq_len(ncol(mat))]
   df <- as.data.frame(mat, stringsAsFactors = FALSE)
 
