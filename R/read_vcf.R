@@ -319,10 +319,31 @@ coerce_variants <- function(x,
 
   rows <- lapply(sample_names_all, function(sname) {
     s_col <- df[[sname]]
-    present <- !s_col %in% c("./.", ".", NA)
+    present <- .gt_has_alt(s_col)
     sub <- out[present, , drop = FALSE]
-    sub$sample <- sname
+    # A scalar assignment to an *existing* column of a 0-row data.frame
+    # errors in base R ("replacement has 1 row, data has 0"); explicit
+    # rep() avoids relying on scalar recycling into a possibly-empty target.
+    sub$sample <- rep(sname, nrow(sub))
     sub
   })
   do.call(rbind, rows)
+}
+
+# A sample "carries" a variant only if its GT contains at least one
+# non-reference allele index. A genotype call is a whole-string match
+# against c("./.", ".") (or NA), which misses the common case of a
+# homozygous-reference call ("0/0") -- that is a called, non-missing
+# genotype, but not an alternate allele, and must not be pivoted in as
+# present. FORMAT fields beyond GT (e.g. "0/1:10,5:15:40" for
+# "GT:AD:DP:GQ") are handled by only reading the first colon-separated
+# subfield.
+.gt_has_alt <- function(sample_col) {
+  gt <- sub(":.*$", "", sample_col)
+  alleles <- strsplit(gt, "[/|]")
+  vapply(alleles, function(a) {
+    a <- a[a != "." & a != "" & !is.na(a)]
+    if (length(a) == 0) return(FALSE)
+    any(a != "0")
+  }, logical(1))
 }
