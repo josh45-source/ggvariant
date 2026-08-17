@@ -77,6 +77,26 @@ test_that("plot_lollipop accepts a custom title", {
   expect_equal(p$labels$title, "My custom title")
 })
 
+test_that("plot_lollipop labels the x-axis as genomic position by default", {
+  skip_if(!nzchar(vcf_path))
+  vf <- read_vcf(vcf_path)
+  p <- plot_lollipop(vf, gene = "TP53")
+  # pos is a raw genomic coordinate unless the caller has already rescaled
+  # it themselves; labelling it "Amino acid position" would be factually
+  # wrong in the default case, so the axis must read "Genomic position".
+  expect_equal(p$labels$x, "Genomic position")
+})
+
+test_that("plot_lollipop labels the x-axis as amino acid position when protein_length is supplied", {
+  skip_if(!nzchar(vcf_path))
+  vf <- read_vcf(vcf_path)
+  # An explicit protein_length is the caller's signal that pos has already
+  # been rescaled into protein coordinates -- only then is "Amino acid
+  # position" accurate.
+  p <- plot_lollipop(vf, gene = "TP53", protein_length = 393)
+  expect_equal(p$labels$x, "Amino acid position")
+})
+
 test_that("plot_lollipop snapshot is stable", {
   skip_if(!nzchar(vcf_path))
   testthat::skip_if_not_installed("vdiffr")

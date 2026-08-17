@@ -34,7 +34,12 @@ Set to \code{"sample"} to colour by sample instead.}
 category. \code{NULL} uses the built-in \code{ggvariant} palette.}
 
 \item{protein_length}{Integer. Total length of the protein in amino acids,
-used to scale the x-axis. If \code{NULL}, inferred from \code{max(pos)}.}
+used to scale the x-axis. If \code{NULL} (default), inferred from \code{max(pos)}
+and the x-axis is labelled "Genomic position", since \code{pos} is assumed to
+be a raw genomic coordinate. Supplying \code{protein_length} is taken as a
+signal that \code{pos} has already been rescaled to protein coordinates (as
+in the \verb{@examples} below), and labels the x-axis "Amino acid position"
+instead.}
 
 \item{stack_dots}{Logical. If \code{TRUE} (default), dots at the same position
 are stacked vertically (beeswarm-style) rather than overlapping.}
