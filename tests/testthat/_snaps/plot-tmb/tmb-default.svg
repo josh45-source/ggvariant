@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' class='svglite' data-engine-version='2.0' width='720.00pt' height='576.00pt' viewBox='0 0 720.00 576.00'>
+<defs>
+  <style type='text/css'><![CDATA[
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+  ]]></style>
+</defs>
+<rect width='100%' height='100%' style='stroke: none; fill: #FFFFFF;'/>
+<defs>
+  <clipPath id='cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA='>
+    <rect x='0.00' y='0.00' width='720.00' height='576.00' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
+<rect x='0.000000000000064' y='0.00' width='720.00' height='576.00' style='stroke-width: 1.16; stroke: none; fill: #FFFFFF;' />
+</g>
+<defs>
+  <clipPath id='cpNDkuODV8NzA4LjA0fDMyLjI5fDQ5MC40NA=='>
+    <rect x='49.85' y='32.29' width='658.19' height='458.16' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpNDkuODV8NzA4LjA0fDMyLjI5fDQ5MC40NA==)'>
+<polyline points='49.85,490.44 708.04,490.44 ' style='stroke-width: 0.85; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='49.85,381.36 708.04,381.36 ' style='stroke-width: 0.85; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='49.85,272.27 708.04,272.27 ' style='stroke-width: 0.85; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='49.85,163.19 708.04,163.19 ' style='stroke-width: 0.85; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='49.85,54.10 708.04,54.10 ' style='stroke-width: 0.85; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='229.36,490.44 229.36,32.29 ' style='stroke-width: 0.85; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='528.54,490.44 528.54,32.29 ' style='stroke-width: 0.85; stroke: #EBEBEB; stroke-linecap: butt;' />
+<rect x='124.65' y='54.10' width='209.43' height='436.34' style='stroke-width: 1.16; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #4E79A7;' />
+<rect x='423.83' y='97.74' width='209.43' height='392.71' style='stroke-width: 1.16; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #4E79A7;' />
+</g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
+<text x='44.47' y='493.95' text-anchor='end' style='font-size: 10.20px; fill: #4D4D4D; font-family: sans;' textLength='14.18px' lengthAdjust='spacingAndGlyphs'>0.0</text>
+<text x='44.47' y='384.87' text-anchor='end' style='font-size: 10.20px; fill: #4D4D4D; font-family: sans;' textLength='14.18px' lengthAdjust='spacingAndGlyphs'>2.5</text>
+<text x='44.47' y='275.78' text-anchor='end' style='font-size: 10.20px; fill: #4D4D4D; font-family: sans;' textLength='14.18px' lengthAdjust='spacingAndGlyphs'>5.0</text>
+<text x='44.47' y='166.70' text-anchor='end' style='font-size: 10.20px; fill: #4D4D4D; font-family: sans;' textLength='14.18px' lengthAdjust='spacingAndGlyphs'>7.5</text>
+<text x='44.47' y='57.61' text-anchor='end' style='font-size: 10.20px; fill: #4D4D4D; font-family: sans;' textLength='19.85px' lengthAdjust='spacingAndGlyphs'>10.0</text>
+<text transform='translate(232.87,495.82) rotate(-90)' text-anchor='end' style='font-size: 10.20px; fill: #4D4D4D; font-family: sans;' textLength='55.56px' lengthAdjust='spacingAndGlyphs'>TUMOR_S1</text>
+<text transform='translate(532.05,495.82) rotate(-90)' text-anchor='end' style='font-size: 10.20px; fill: #4D4D4D; font-family: sans;' textLength='55.56px' lengthAdjust='spacingAndGlyphs'>TUMOR_S2</text>
+<text x='378.95' y='561.80' text-anchor='middle' style='font-size: 10.80px; fill: #4D4D4D; font-family: sans;' textLength='36.62px' lengthAdjust='spacingAndGlyphs'>Sample</text>
+<text transform='translate(19.39,261.37) rotate(-90)' text-anchor='middle' style='font-size: 10.80px; fill: #4D4D4D; font-family: sans;' textLength='70.85px' lengthAdjust='spacingAndGlyphs'>Mutation count</text>
+<text x='49.85' y='21.45' style='font-size: 13.80px; font-weight: bold; font-family: sans;' textLength='161.87px' lengthAdjust='spacingAndGlyphs'>Tumour mutational burden</text>
+</g>
+</svg>

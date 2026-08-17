@@ -15,9 +15,9 @@ keeps all samples.}
 \item{pass_only}{Logical. If \code{TRUE} (default), only variants with \code{FILTER}
 equal to \code{"PASS"} or \code{"."} are retained.}
 
-\item{info_fields}{Character vector of INFO field names to expand into
-columns. \code{NULL} keeps none. Use \code{"all"} to expand everything (may be slow
-for large files).}
+\item{info_fields}{Not yet implemented; passing a non-\code{NULL} value aborts
+with an error. Reserved for future INFO field expansion. See
+\url{https://github.com/josh45-source/ggvariant/issues/2}.}
 }
 \value{
 A \code{gvf} (genomic variant frame) — a \code{data.frame} with columns:
@@ -45,6 +45,24 @@ variants <- read_vcf(vcf_file)
 head(variants)
 
 }
+\references{
+Danecek P, Auton A, Abecasis G, et al.; 1000 Genomes Project Analysis
+Group (2011). The variant call format and VCFtools. \emph{Bioinformatics},
+27(15), 2156-2158. \doi{10.1093/bioinformatics/btr330}
+
+Cingolani P, Platts A, Wang LL, et al. (2012). A program for annotating
+and predicting the effects of single nucleotide polymorphisms, SnpEff:
+SNPs in the genome of \emph{Drosophila melanogaster} strain w1118; iso-2;
+iso-3. \emph{Fly}, 6(2), 80-92. \doi{10.4161/fly.19695}
+
+McLaren W, Gil L, Hunt SE, et al. (2016). The Ensembl Variant Effect
+Predictor. \emph{Genome Biology}, 17(1), 122.
+\doi{10.1186/s13059-016-0974-4}
+}
 \seealso{
 \code{\link[=coerce_variants]{coerce_variants()}}, \code{\link[=plot_lollipop]{plot_lollipop()}}, \code{\link[=plot_consequence_summary]{plot_consequence_summary()}}
+
+Other ggvariant input: 
+\code{\link{coerce_variants}()}
 }
+\concept{ggvariant input}

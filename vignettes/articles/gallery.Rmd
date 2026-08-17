@@ -1,0 +1,67 @@
+---
+title: "Gallery"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse   = TRUE,
+  comment    = "#>",
+  fig.width  = 7,
+  fig.height = 4.5,
+  out.width  = "100%"
+)
+```
+
+```{r setup}
+library(ggvariant)
+
+vcf_file <- system.file("extdata", "example.vcf", package = "ggvariant")
+variants <- read_vcf(vcf_file)
+```
+
+This gallery collects one example of every `ggvariant` plot type against the
+bundled example VCF. See `vignette("ggvariant")` for a narrated walkthrough,
+and the function reference for the full argument list of each plot.
+
+## Lollipop plot
+
+```{r lollipop}
+plot_lollipop(variants, gene = "TP53")
+```
+
+## Consequence summary
+
+```{r consequence-summary}
+plot_consequence_summary(variants, group_by = "gene", top_n = 6)
+```
+
+## Mutational spectrum
+
+```{r spectrum}
+plot_variant_spectrum(variants, facet_by_sample = TRUE)
+```
+
+## Oncoprint / waterfall plot
+
+`plot_oncoprint()` and `plot_waterfall()` are the same function under the two
+names used by different communities.
+
+```{r oncoprint}
+plot_oncoprint(variants, top_n = 6)
+```
+
+With a clinical annotation track:
+
+```{r oncoprint-annotation}
+clinical <- data.frame(
+  sample = c("TUMOR_S1", "TUMOR_S2"),
+  stage  = c("III", "IV")
+)
+plot_oncoprint(variants, top_n = 6, annotation = clinical)
+```
+
+## Tumour mutational burden
+
+```{r tmb}
+plot_tmb(variants)
+```

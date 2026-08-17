@@ -5,3 +5,13 @@
 ^Meta$
 ^cran-comments\.md$
 ^CRAN-SUBMISSION$
+^\.github$
+^codecov\.yml$
+^AUDIT\.md$
+^\.devscratch$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^vignettes/articles$
+^README\.Rmd$
+^\.claude$

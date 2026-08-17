@@ -1,0 +1,35 @@
+url: https://josh45-source.github.io/ggvariant/
+template:
+  bootstrap: 5
+
+reference:
+- title: Package overview
+  contents:
+  - ggvariant-package
+
+- title: Reading and coercing variants
+  desc: >
+    Get variant data into the tidy `gvf` format every `ggvariant` plot
+    function accepts.
+  contents:
+  - read_vcf
+  - coerce_variants
+  - gvf-methods
+
+- title: Plots
+  desc: >
+    ggplot2-native plotting functions, one per visualisation type.
+  contents:
+  - plot_lollipop
+  - plot_consequence_summary
+  - plot_variant_spectrum
+  - plot_oncoprint
+  - plot_tmb
+
+- title: Palettes and themes
+  desc: >
+    Built-in colour palettes and the shared plot theme, exported for reuse
+    when customising a plot's `ggplot2` layers directly.
+  contents:
+  - gv_palette
+  - theme_ggvariant

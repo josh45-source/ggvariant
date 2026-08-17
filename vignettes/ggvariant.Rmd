@@ -1,8 +1,8 @@
 ---
-title: "Introduction to ggvariant"
+title: "Getting started with ggvariant"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction to ggvariant}
+  %\VignetteIndexEntry{Getting started with ggvariant}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -19,19 +19,12 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-`ggvariant` provides a simple, ggplot2-native toolkit for visualising genomic
-variant data. Whether you are a wet-lab biologist working from an Excel export
-or an experienced bioinformatician loading VCF files directly, `ggvariant`
-gets you to a publication-ready plot in just a few lines of R.
-
-This vignette walks through a complete workflow:
-
-1. Loading variant data (VCF file or data frame)
-2. Exploring variants with a lollipop plot
-3. Summarising consequences across samples and genes
-4. Visualising the mutational spectrum
-
----
+This vignette walks through a complete `ggvariant` workflow: loading variant
+data from a VCF file or a data frame, plotting variant positions along a
+gene, summarising consequences across samples and genes, and visualising the
+mutational spectrum. By the end you will have produced each of the package's
+core plot types against the bundled example data and know how to point them
+at your own.
 
 ## Installation
 
@@ -46,8 +39,6 @@ install.packages("ggvariant")
 ```{r load}
 library(ggvariant)
 ```
-
----
 
 ## Loading variant data
 
@@ -93,8 +84,6 @@ variants <- coerce_variants(my_df,
 
 Any extra columns in your data frame are carried over automatically, so you
 never lose information.
-
----
 
 ## Lollipop plot
 
@@ -153,8 +142,6 @@ plot_lollipop(variants, gene = "KRAS") +
   theme(legend.position = "bottom")
 ```
 
----
-
 ## Consequence summary
 
 `plot_consequence_summary()` gives an overview of what *types* of variants are
@@ -190,8 +177,6 @@ plot_consequence_summary(variants, group_by = "gene", top_n = 7)
 TP53 stands out immediately as the most mutated gene, a pattern typical of
 many cancer cohorts.
 
----
-
 ## Mutational spectrum
 
 The mutational spectrum shows the relative frequency of each of the six
@@ -214,8 +199,6 @@ To compare mutational processes between samples side by side:
 plot_variant_spectrum(variants, facet_by_sample = TRUE)
 ```
 
----
-
 ## Interactive plots
 
 All plot functions support `interactive = TRUE`, which wraps the output in
@@ -228,12 +211,7 @@ who don't use R — simply save as an HTML file and send it.
 
 p <- plot_lollipop(variants, gene = "TP53", interactive = TRUE)
 p  # opens in RStudio viewer or browser
-
-# Save as a standalone HTML file
-htmlwidgets::saveWidget(p, "TP53_lollipop.html")
 ```
-
----
 
 ## Colour palettes and theming
 
@@ -258,8 +236,6 @@ ggplot(my_data, aes(x, y)) +
   theme_ggvariant()
 ```
 
----
-
 ## Summary
 
 | Function | Input | Output |
@@ -275,8 +251,6 @@ ggplot(my_data, aes(x, y)) +
 All plot functions return a `ggplot` object — extend them freely with
 standard `ggplot2` syntax, and use `interactive = TRUE` with any of them
 to get a `plotly` interactive version.
-
----
 
 ## Session information
 

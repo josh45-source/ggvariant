@@ -16,7 +16,9 @@ plot_consequence_summary(
 )
 }
 \arguments{
-\item{variants}{A \code{gvf} object or compatible \code{data.frame}.}
+\item{variants}{A \code{gvf} object from \code{\link[=read_vcf]{read_vcf()}} or \code{\link[=coerce_variants]{coerce_variants()}},
+or any \code{data.frame} with columns \code{pos}, \code{consequence}, and optionally
+\code{gene} and \code{sample}.}
 
 \item{samples}{Character vector of sample names to include. \code{NULL} (default)
 uses all samples. Ignored if there is no \code{sample} column.}
@@ -30,12 +32,14 @@ total variant count. Default \code{10}.}
 \item{position}{\code{"stack"} (default) or \code{"fill"} (proportional) or
 \code{"dodge"}.}
 
-\item{palette}{Named character vector of colours. \code{NULL} uses built-in.}
+\item{palette}{Named character vector of colours for each consequence/sample
+category. \code{NULL} uses the built-in \code{ggvariant} palette.}
 
 \item{flip}{Logical. If \code{TRUE}, flips coordinates for horizontal bars.
 Default \code{FALSE}.}
 
-\item{interactive}{Logical. Returns a \code{plotly} object if \code{TRUE}.}
+\item{interactive}{Logical. If \code{TRUE}, returns a \code{plotly} interactive plot
+(requires the \code{plotly} package).}
 }
 \value{
 A \code{ggplot} object.
@@ -58,3 +62,13 @@ plot_consequence_summary(variants, position = "fill")
 plot_consequence_summary(variants, group_by = "gene", top_n = 10)
 
 }
+\seealso{
+\code{\link[=plot_lollipop]{plot_lollipop()}}, \code{\link[=plot_variant_spectrum]{plot_variant_spectrum()}}, \code{\link[=gv_palette]{gv_palette()}}
+
+Other ggvariant plots: 
+\code{\link{plot_lollipop}()},
+\code{\link{plot_oncoprint}()},
+\code{\link{plot_tmb}()},
+\code{\link{plot_variant_spectrum}()}
+}
+\concept{ggvariant plots}

@@ -52,6 +52,11 @@ Draws a lollipop (stem-and-dot) diagram showing variant positions along
 a gene, coloured by consequence. Optionally overlays protein domain
 annotations when domain boundaries are supplied.
 }
+\details{
+\code{domains} accepts any protein domain boundaries you supply. Pfam
+(Paysan-Lafosse et al. 2025) is one source for real domain coordinates,
+rather than typing them by hand as in the \verb{@examples} below.
+}
 \examples{
 vcf_file <- system.file("extdata", "example.vcf", package = "ggvariant")
 variants <- read_vcf(vcf_file)
@@ -71,3 +76,19 @@ tp53_domains <- data.frame(
 plot_lollipop(variants, gene = "TP53", domains = tp53_domains)
 
 }
+\references{
+Paysan-Lafosse T, Andreeva A, Blum M, et al. (2025). The Pfam protein
+families database: embracing AI/ML. \emph{Nucleic Acids Research}, 53(D1),
+D523-D534. \doi{10.1093/nar/gkae997}
+}
+\seealso{
+\code{\link[=plot_consequence_summary]{plot_consequence_summary()}}, \code{\link[=plot_variant_spectrum]{plot_variant_spectrum()}},
+\code{\link[=gv_palette]{gv_palette()}}
+
+Other ggvariant plots: 
+\code{\link{plot_consequence_summary}()},
+\code{\link{plot_oncoprint}()},
+\code{\link{plot_tmb}()},
+\code{\link{plot_variant_spectrum}()}
+}
+\concept{ggvariant plots}

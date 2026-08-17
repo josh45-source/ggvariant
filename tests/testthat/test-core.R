@@ -59,6 +59,35 @@ test_that("plot_variant_spectrum returns a ggplot", {
   expect_s3_class(p, "ggplot")
 })
 
+test_that("plot_variant_spectrum errors on context = TRUE", {
+  vcf_path <- system.file("extdata", "example.vcf", package = "ggvariant")
+  skip_if(!nzchar(vcf_path))
+  vf <- read_vcf(vcf_path)
+  expect_error(
+    plot_variant_spectrum(vf, context = TRUE),
+    regexp = "not yet implemented"
+  )
+})
+
+test_that("plot_variant_spectrum errors on non-NULL genome", {
+  vcf_path <- system.file("extdata", "example.vcf", package = "ggvariant")
+  skip_if(!nzchar(vcf_path))
+  vf <- read_vcf(vcf_path)
+  expect_error(
+    plot_variant_spectrum(vf, genome = "hg38"),
+    regexp = "not yet implemented"
+  )
+})
+
+test_that("read_vcf errors on non-NULL info_fields", {
+  vcf_path <- system.file("extdata", "example.vcf", package = "ggvariant")
+  skip_if(!nzchar(vcf_path))
+  expect_error(
+    read_vcf(vcf_path, info_fields = "AF"),
+    regexp = "not yet implemented"
+  )
+})
+
 test_that("gv_palette returns named colour vectors", {
   pal <- gv_palette("consequence")
   expect_type(pal, "character")

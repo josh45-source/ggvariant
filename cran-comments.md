@@ -2,9 +2,27 @@
 
 0 errors | 0 warnings | 0 notes
 
-## This is a new submission
+## Summary of changes
 
-This is the first submission of ggvariant to CRAN.
-The package provides ggplot2-native visualization tools
-for genomic variant data, accepting VCF files or plain
-data frames as input.
+ggvariant 0.2.0 is a minor release. Highlights:
+
+  * New `plot_oncoprint()` / `plot_waterfall()` (gene-by-sample mutation
+    matrix) and `plot_tmb()` (tumour mutational burden) plots.
+  * New `print.gvf()` / `summary.gvf()` methods.
+  * Fixed a correctness bug (present since the 0.1.0 release on CRAN):
+    `read_vcf()`'s internal sample-pivoting incorrectly attached a variant
+    to every sample regardless of its actual genotype, rather than only to
+    samples with a non-reference allele. This affected every per-sample
+    plot on a multi-sample VCF with mixed genotypes.
+  * `plot_variant_spectrum()`'s `context`/`genome` arguments and
+    `read_vcf()`'s `info_fields` argument, previously documented but
+    silently ignored, now abort with an informative error rather than
+    doing nothing.
+  * Performance: VCF INFO-field parsing is now vectorised
+    (~8.75x faster in isolation on a 100k-record synthetic VCF).
+
+Full details in NEWS.md.
+
+## Downstream dependencies
+
+There are no downstream dependencies for this package.

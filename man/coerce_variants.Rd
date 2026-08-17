@@ -64,3 +64,10 @@ variants <- coerce_variants(df,
 )
 
 }
+\seealso{
+\code{\link[=read_vcf]{read_vcf()}}
+
+Other ggvariant input: 
+\code{\link{read_vcf}()}
+}
+\concept{ggvariant input}

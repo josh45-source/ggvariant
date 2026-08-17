@@ -10,9 +10,9 @@
 #'   keeps all samples.
 #' @param pass_only Logical. If `TRUE` (default), only variants with `FILTER`
 #'   equal to `"PASS"` or `"."` are retained.
-#' @param info_fields Character vector of INFO field names to expand into
-#'   columns. `NULL` keeps none. Use `"all"` to expand everything (may be slow
-#'   for large files).
+#' @param info_fields Not yet implemented; passing a non-`NULL` value aborts
+#'   with an error. Reserved for future INFO field expansion. See
+#'   <https://github.com/josh45-source/ggvariant/issues/2>.
 #'
 #' @return A `gvf` (genomic variant frame) — a `data.frame` with columns:
 #'   \describe{
@@ -32,6 +32,21 @@
 #' variants <- read_vcf(vcf_file)
 #' head(variants)
 #'
+#' @references
+#' Danecek P, Auton A, Abecasis G, et al.; 1000 Genomes Project Analysis
+#' Group (2011). The variant call format and VCFtools. *Bioinformatics*,
+#' 27(15), 2156-2158. \doi{10.1093/bioinformatics/btr330}
+#'
+#' Cingolani P, Platts A, Wang LL, et al. (2012). A program for annotating
+#' and predicting the effects of single nucleotide polymorphisms, SnpEff:
+#' SNPs in the genome of *Drosophila melanogaster* strain w1118; iso-2;
+#' iso-3. *Fly*, 6(2), 80-92. \doi{10.4161/fly.19695}
+#'
+#' McLaren W, Gil L, Hunt SE, et al. (2016). The Ensembl Variant Effect
+#' Predictor. *Genome Biology*, 17(1), 122.
+#' \doi{10.1186/s13059-016-0974-4}
+#'
+#' @family ggvariant input
 #' @seealso [coerce_variants()], [plot_lollipop()], [plot_consequence_summary()]
 #' @export
 read_vcf <- function(path,
@@ -39,6 +54,17 @@ read_vcf <- function(path,
                      pass_only  = TRUE,
                      info_fields = NULL) {
 
+  if (!is.null(info_fields)) {
+    cli::cli_abort(c(
+      "INFO field expansion is not yet implemented.",
+      "i" = "{.arg info_fields} is currently ignored.",
+      "i" = "Track progress at \\
+             {.url https://github.com/josh45-source/ggvariant/issues/2}."
+    ))
+  }
+
+  if (!file.exists(path))
+    cli::cli_abort("File not found: {.file {path}}.")
   path <- normalizePath(path, mustWork = TRUE)
   cli::cli_progress_step("Reading VCF: {.file {basename(path)}}")
 
@@ -53,12 +79,28 @@ read_vcf <- function(path,
 
   # Parse sample names from #CHROM header
   col_header <- tail(header_lines[grepl("^#CHROM", header_lines)], 1)
+  if (length(col_header) == 0L)
+    cli::cli_abort(
+      "Malformed VCF: no {.code #CHROM} header line found in \\
+       {.file {basename(path)}}."
+    )
   col_names  <- strsplit(sub("^#", "", col_header), "\t")[[1]]
   fixed_cols <- c("CHROM", "POS", "ID", "REF", "ALT", "QUAL", "FILTER", "INFO")
   sample_names_all <- setdiff(col_names, c(fixed_cols, "FORMAT"))
 
   # Parse body
-  mat <- do.call(rbind, strsplit(data_lines, "\t"))
+  split_lines <- strsplit(data_lines, "\t")
+  n_expected  <- length(col_names)
+  bad         <- which(lengths(split_lines) != n_expected)
+  if (length(bad) > 0)
+    cli::cli_abort(
+      "Malformed VCF: {cli::qty(length(bad))} data line{?s} {bad} of \\
+       {.file {basename(path)}} {cli::qty(length(bad))} ha{?s/ve} the \\
+       wrong number of tab-separated fields (expected {n_expected}, \\
+       matching the {.code #CHROM} header)."
+    )
+
+  mat <- do.call(rbind, split_lines)
   colnames(mat) <- col_names[seq_len(ncol(mat))]
   df <- as.data.frame(mat, stringsAsFactors = FALSE)
 
@@ -98,11 +140,11 @@ read_vcf <- function(path,
 
   # Pivot samples (if FORMAT/GT columns present)
   if (length(sample_names_all) > 0) {
-    fmt_col <- if ("FORMAT" %in% colnames(df)) df$FORMAT else NULL
-    out <- .pivot_samples(out, df, sample_names_all, fmt_col, samples)
+    out <- .pivot_samples(out, df, sample_names_all, samples)
   }
 
   class(out) <- c("gvf", "data.frame")
+  validate_gvf(out)
   cli::cli_progress_done()
   cli::cli_inform(
     "Loaded {nrow(out)} variant record{?s} across \\
@@ -152,6 +194,8 @@ read_vcf <- function(path,
 #'   sample      = "tumor_sample"
 #' )
 #'
+#' @family ggvariant input
+#' @seealso [read_vcf()]
 #' @export
 coerce_variants <- function(x,
                             chrom       = "chrom",
@@ -200,6 +244,7 @@ coerce_variants <- function(x,
   if (length(extra)) out <- cbind(out, x[, extra, drop = FALSE])
 
   class(out) <- c("gvf", "data.frame")
+  validate_gvf(out)
   out
 }
 
@@ -251,40 +296,68 @@ coerce_variants <- function(x,
 }
 
 .parse_ann_csq <- function(out, info_vec) {
-  # Attempt to parse VEP CSQ or SnpEff ANN fields
+  # Attempt to parse VEP CSQ or SnpEff ANN fields. Vectorised: every regex
+  # step runs once over the whole vector rather than once per row.
   has_ann <- grepl("ANN=|CSQ=", info_vec)
   if (!any(has_ann)) return(out)
 
-  parsed <- vapply(info_vec, function(info) {
-    m <- regmatches(info, regexpr("(?:ANN|CSQ)=([^;]+)", info))
-    if (length(m) == 0) return(c(gene = NA_character_, csq = NA_character_))
-    val   <- sub("^(?:ANN|CSQ)=", "", m)
-    first <- strsplit(val, ",")[[1]][1]
-    parts <- strsplit(first, "\\|")[[1]]
-    # ANN: [1]=allele [2]=effect [3]=impact [4]=gene
-    # CSQ: order varies; we pick conservatively
-    gene <- if (length(parts) >= 4) parts[4] else NA_character_
-    csq  <- if (length(parts) >= 2) parts[2] else NA_character_
-    c(gene = gene, csq = csq)
-  }, character(2))
+  # regexpr()/regmatches() on a full vector drop non-matching elements from
+  # the result entirely, so results are written back via the match-position
+  # mask rather than assumed to line up positionally. regexpr() returns NA
+  # (not -1) for an NA input string, so the mask must exclude both.
+  m    <- regexpr("(?:ANN|CSQ)=([^;]+)", info_vec, perl = TRUE)
+  mask <- !is.na(m) & m != -1L
+  vals <- rep(NA_character_, length(info_vec))
+  vals[mask] <- regmatches(info_vec, m)
 
-  out$gene[is.na(out$gene)] <- parsed["gene", is.na(out$gene)]
-  csq <- parsed["csq", ]
+  vals  <- sub("^(?:ANN|CSQ)=", "", vals)
+  first <- sub(",.*$", "", vals)          # first comma-separated annotation
+  parts_list <- strsplit(first, "\\|")    # one call for the whole vector
+
+  # ANN: [1]=allele [2]=effect [3]=impact [4]=gene
+  # CSQ: order varies; we pick conservatively.
+  # Out-of-range `[` indexing returns NA, so short/NA entries need no
+  # special-casing here.
+  gene <- vapply(parts_list, `[`, character(1), 4)
+  csq  <- vapply(parts_list, `[`, character(1), 2)
+
+  out$gene[is.na(out$gene)] <- gene[is.na(out$gene)]
   out$consequence <- ifelse(!is.na(csq), csq, out$consequence)
   out
 }
 
-.pivot_samples <- function(out, df, sample_names_all, fmt_col, keep_samples) {
+.pivot_samples <- function(out, df, sample_names_all, keep_samples) {
   if (!is.null(keep_samples))
     sample_names_all <- intersect(sample_names_all, keep_samples)
   if (length(sample_names_all) == 0) return(out)
 
   rows <- lapply(sample_names_all, function(sname) {
     s_col <- df[[sname]]
-    present <- !s_col %in% c("./.", ".", NA)
+    present <- .gt_has_alt(s_col)
     sub <- out[present, , drop = FALSE]
-    sub$sample <- sname
+    # A scalar assignment to an *existing* column of a 0-row data.frame
+    # errors in base R ("replacement has 1 row, data has 0"); explicit
+    # rep() avoids relying on scalar recycling into a possibly-empty target.
+    sub$sample <- rep(sname, nrow(sub))
     sub
   })
   do.call(rbind, rows)
+}
+
+# A sample "carries" a variant only if its GT contains at least one
+# non-reference allele index. A genotype call is a whole-string match
+# against c("./.", ".") (or NA), which misses the common case of a
+# homozygous-reference call ("0/0") -- that is a called, non-missing
+# genotype, but not an alternate allele, and must not be pivoted in as
+# present. FORMAT fields beyond GT (e.g. "0/1:10,5:15:40" for
+# "GT:AD:DP:GQ") are handled by only reading the first colon-separated
+# subfield.
+.gt_has_alt <- function(sample_col) {
+  gt <- sub(":.*$", "", sample_col)
+  alleles <- strsplit(gt, "[/|]")
+  vapply(alleles, function(a) {
+    a <- a[a != "." & a != "" & !is.na(a)]
+    if (length(a) == 0) return(FALSE)
+    any(a != "0")
+  }, logical(1))
 }

@@ -5,7 +5,7 @@ bibentry(
                      email = "joashjoshua789@gmail.com",
                      comment = c(ORCID = "0009-0007-1642-0172")),
   year     = "2026",
-  note     = "R package version 0.1.0",
+  note     = sprintf("R package version %s", meta$Version),
   url      = "https://CRAN.R-project.org/package=ggvariant",
   doi      = "10.32614/CRAN.package.ggvariant"
 )

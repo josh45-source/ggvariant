@@ -17,6 +17,12 @@ A named character vector of hex colour codes.
 \description{
 Access the built-in colour palettes used by \code{ggvariant} plot functions.
 }
+\details{
+The \code{"consequence"} palette covers the most common VEP/SnpEff/MAF
+consequence terms; any other term is standardised to an \code{"Other"} bucket
+(its own entry in this palette) by plot functions rather than being
+dropped.
+}
 \examples{
 gv_palette("consequence")
 gv_palette("spectrum")

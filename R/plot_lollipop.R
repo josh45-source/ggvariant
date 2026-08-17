@@ -4,6 +4,11 @@
 #' a gene, coloured by consequence. Optionally overlays protein domain
 #' annotations when domain boundaries are supplied.
 #'
+#' @details
+#' `domains` accepts any protein domain boundaries you supply. Pfam
+#' (Paysan-Lafosse et al. 2025) is one source for real domain coordinates,
+#' rather than typing them by hand as in the `@examples` below.
+#'
 #' @param variants A `gvf` object from [read_vcf()] or [coerce_variants()],
 #'   or any `data.frame` with columns `pos`, `consequence`, and optionally
 #'   `gene` and `sample`.
@@ -43,6 +48,14 @@
 #' )
 #' plot_lollipop(variants, gene = "TP53", domains = tp53_domains)
 #'
+#' @references
+#' Paysan-Lafosse T, Andreeva A, Blum M, et al. (2025). The Pfam protein
+#' families database: embracing AI/ML. *Nucleic Acids Research*, 53(D1),
+#' D523-D534. \doi{10.1093/nar/gkae997}
+#'
+#' @family ggvariant plots
+#' @seealso [plot_consequence_summary()], [plot_variant_spectrum()],
+#'   [gv_palette()]
 #' @export
 plot_lollipop <- function(variants,
                           gene           = NULL,

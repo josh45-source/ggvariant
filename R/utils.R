@@ -2,6 +2,11 @@
 #'
 #' Access the built-in colour palettes used by `ggvariant` plot functions.
 #'
+#' The `"consequence"` palette covers the most common VEP/SnpEff/MAF
+#' consequence terms; any other term is standardised to an `"Other"` bucket
+#' (its own entry in this palette) by plot functions rather than being
+#' dropped.
+#'
 #' @param type One of `"consequence"` (default), `"spectrum"`, or `"domain"`.
 #' @param n Integer. For `"domain"`, the number of colours to generate.
 #'
@@ -85,7 +90,8 @@ theme_ggvariant <- function(base_size = 12, base_family = "") {
     "SNV"                      = "#BDBDBD",
     "deletion"                 = "#41AB5D",
     "insertion"                = "#A1D99B",
-    "MNV"                      = "#F768A1"
+    "MNV"                      = "#F768A1",
+    "Other"                    = "#7F7F7F"
   )
 }
 
@@ -129,7 +135,13 @@ theme_ggvariant <- function(base_size = 12, base_family = "") {
   comp[bases]
 }
 
-.standardise_consequence <- function(x) {
+# `known`: terms that pass through unchanged (after alias normalisation);
+# everything else collapses to "Other". Defaults to the full set of names in
+# .consequence_palette(), which keeps plot_consequence_summary()'s detailed
+# per-class breakdown. Callers that want a coarser grouping (e.g.
+# plot_oncoprint(), which only distinguishes a handful of core mutation
+# types) pass a narrower set.
+.standardise_consequence <- function(x, known = names(.consequence_palette())) {
   # Map common aliases to a unified label for display
   lut <- c(
     "Missense_Mutation"  = "missense_variant",
@@ -141,9 +153,25 @@ theme_ggvariant <- function(base_size = 12, base_family = "") {
     "In_Frame_Del"       = "inframe_deletion",
     "In_Frame_Ins"       = "inframe_insertion"
   )
-  # Preserve unmatched values
   x <- ifelse(x %in% names(lut), lut[x], x)
+  # Any term that still isn't in `known` (e.g. a VEP/SnpEff consequence
+  # outside the accepted set) collapses to the visible "Other" bucket rather
+  # than falling through to an unmapped colour scale value, which ggplot2
+  # silently renders as NA -- indistinguishable from a genuinely unmutated
+  # cell. True missing consequence (NA) is left as NA; only
+  # *present-but-unrecognised* values become "Other".
+  x[!is.na(x) & !(x %in% known)] <- "Other"
   x
+}
+
+# The handful of core mutation types plot_oncoprint() distinguishes by
+# colour; every other consequence term collapses to "Other" in its legend.
+# ("Multi_Hit" is assigned upstream of .standardise_consequence() in
+# .oncoprint_cells(), but is included here so it is never mistakenly
+# re-collapsed if ever passed through.)
+.oncoprint_known_consequences <- function() {
+  c("missense_variant", "stop_gained", "frameshift_variant",
+    "synonymous_variant", "Multi_Hit")
 }
 
 
