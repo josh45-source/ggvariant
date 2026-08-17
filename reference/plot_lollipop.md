@@ -54,7 +54,12 @@ plot_lollipop(
 - protein_length:
 
   Integer. Total length of the protein in amino acids, used to scale the
-  x-axis. If `NULL`, inferred from `max(pos)`.
+  x-axis. If `NULL` (default), inferred from `max(pos)` and the x-axis
+  is labelled "Genomic position", since `pos` is assumed to be a raw
+  genomic coordinate. Supplying `protein_length` is taken as a signal
+  that `pos` has already been rescaled to protein coordinates (as in the
+  `@examples` below), and labels the x-axis "Amino acid position"
+  instead.
 
 - stack_dots:
 

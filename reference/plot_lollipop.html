@@ -97,7 +97,12 @@ category. <code>NULL</code> uses the built-in <code>ggvariant</code> palette.</p
 
 <dt id="arg-protein-length">protein_length<a class="anchor" aria-label="anchor" href="#arg-protein-length"></a></dt>
 <dd><p>Integer. Total length of the protein in amino acids,
-used to scale the x-axis. If <code>NULL</code>, inferred from <code>max(pos)</code>.</p></dd>
+used to scale the x-axis. If <code>NULL</code> (default), inferred from <code>max(pos)</code>
+and the x-axis is labelled "Genomic position", since <code>pos</code> is assumed to
+be a raw genomic coordinate. Supplying <code>protein_length</code> is taken as a
+signal that <code>pos</code> has already been rescaled to protein coordinates (as
+in the <code>@examples</code> below), and labels the x-axis "Amino acid position"
+instead.</p></dd>
 
 
 <dt id="arg-stack-dots">stack_dots<a class="anchor" aria-label="anchor" href="#arg-stack-dots"></a></dt>

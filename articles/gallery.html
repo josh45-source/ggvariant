@@ -112,24 +112,59 @@ function reference for the full argument list of each plot.</p>
 <h2 id="oncoprint-waterfall-plot">Oncoprint / waterfall plot<a class="anchor" aria-label="anchor" href="#oncoprint-waterfall-plot"></a>
 </h2>
 <p><code><a href="../reference/plot_oncoprint.html">plot_oncoprint()</a></code> and <code><a href="../reference/plot_oncoprint.html">plot_waterfall()</a></code> are
-the same function under the two names used by different communities.</p>
+the same function under the two names used by different communities —
+“oncoprint” in the <code>ComplexHeatmap</code>/ cBioPortal vocabulary,
+“waterfall plot” in the <code>GenVisR</code>/<code>maftools</code>
+vocabulary. A waterfall plot and an oncoprint are the same
+visualisation: <code><a href="../reference/plot_oncoprint.html">plot_waterfall()</a></code> and
+<code><a href="../reference/plot_oncoprint.html">plot_oncoprint()</a></code> are aliases for one function and produce
+identical output — use whichever name your field uses.</p>
+<p>The bundled example VCF has only two samples, too few to show the
+cascade staircase this plot is built around. The cohort below is
+illustrative synthetic data generated just for this article (not the
+package’s example data), sized like a real cohort so the staircase and
+the annotation track are both visible, with a clinical
+<code>stage</code> track added via <code>annotation</code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_oncoprint.html">plot_oncoprint</a></span><span class="op">(</span><span class="va">variants</span>, top_n <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></code></pre></div>
-<p><img src="gallery_files/figure-html/oncoprint-1.png" class="r-plt" alt="" width="100%"></p>
-<p>With a clinical annotation track:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">clinical</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>  sample <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TUMOR_S1"</span>, <span class="st">"TUMOR_S2"</span><span class="op">)</span>,</span>
-<span>  stage  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"III"</span>, <span class="st">"IV"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TP53"</span>, <span class="st">"KRAS"</span>, <span class="st">"PIK3CA"</span>, <span class="st">"EGFR"</span>, <span class="st">"BRCA1"</span>,</span>
+<span>           <span class="st">"BRCA2"</span>, <span class="st">"APC"</span>, <span class="st">"PTEN"</span>, <span class="st">"ARID1A"</span>, <span class="st">"SMAD4"</span><span class="op">)</span></span>
+<span><span class="va">gene_freq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>TP53 <span class="op">=</span> <span class="fl">0.85</span>, KRAS <span class="op">=</span> <span class="fl">0.55</span>, PIK3CA <span class="op">=</span> <span class="fl">0.40</span>, EGFR <span class="op">=</span> <span class="fl">0.30</span>,</span>
+<span>               BRCA1 <span class="op">=</span> <span class="fl">0.22</span>, BRCA2 <span class="op">=</span> <span class="fl">0.18</span>, APC <span class="op">=</span> <span class="fl">0.14</span>, PTEN <span class="op">=</span> <span class="fl">0.10</span>,</span>
+<span>               ARID1A <span class="op">=</span> <span class="fl">0.07</span>, SMAD4 <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span>
+<span><span class="va">samples</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"COHORT_S%02d"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">28</span><span class="op">)</span></span>
+<span><span class="va">consequences</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"missense_variant"</span>, <span class="st">"stop_gained"</span>,</span>
+<span>                   <span class="st">"frameshift_variant"</span>, <span class="st">"synonymous_variant"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">cohort</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">genes</span>, <span class="kw">function</span><span class="op">(</span><span class="va">g</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">n_mut</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">gene_freq</span><span class="op">[[</span><span class="va">g</span><span class="op">]</span><span class="op">]</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">samples</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>    chrom <span class="op">=</span> <span class="st">"chr1"</span>, pos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1e6</span><span class="op">:</span><span class="fl">2e6</span>, <span class="va">n_mut</span><span class="op">)</span>,</span>
+<span>    ref <span class="op">=</span> <span class="st">"A"</span>, alt <span class="op">=</span> <span class="st">"T"</span>, gene <span class="op">=</span> <span class="va">g</span>,</span>
+<span>    sample <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">samples</span>, <span class="va">n_mut</span><span class="op">)</span>,</span>
+<span>    consequence <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">consequences</span>, <span class="va">n_mut</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>    stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">cohort_variants</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/coerce_variants.html">coerce_variants</a></span><span class="op">(</span><span class="va">cohort</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">clinical_stage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  sample <span class="op">=</span> <span class="va">samples</span>,</span>
+<span>  stage  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"I"</span>, <span class="st">"II"</span>, <span class="st">"III"</span>, <span class="st">"IV"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">samples</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/plot_oncoprint.html">plot_oncoprint</a></span><span class="op">(</span><span class="va">variants</span>, top_n <span class="op">=</span> <span class="fl">6</span>, annotation <span class="op">=</span> <span class="va">clinical</span><span class="op">)</span></span></code></pre></div>
-<p><img src="gallery_files/figure-html/oncoprint-annotation-1.png" class="r-plt" alt="" width="100%"></p>
+<span></span>
+<span><span class="fu"><a href="../reference/plot_oncoprint.html">plot_waterfall</a></span><span class="op">(</span><span class="va">cohort_variants</span>, top_n <span class="op">=</span> <span class="fl">10</span>, annotation <span class="op">=</span> <span class="va">clinical_stage</span><span class="op">)</span></span></code></pre></div>
+<p><img src="gallery_files/figure-html/oncoprint-cohort-1.png" class="r-plt" alt="" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="tumour-mutational-burden">Tumour mutational burden<a class="anchor" aria-label="anchor" href="#tumour-mutational-burden"></a>
 </h2>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_tmb.html">plot_tmb</a></span><span class="op">(</span><span class="va">variants</span><span class="op">)</span></span></code></pre></div>
+<p>Reusing the same illustrative synthetic cohort from the oncoprint
+example above gives a more realistic view of per-sample burden across 28
+samples than the two-sample example VCF would:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_tmb.html">plot_tmb</a></span><span class="op">(</span><span class="va">cohort_variants</span><span class="op">)</span></span></code></pre></div>
 <p><img src="gallery_files/figure-html/tmb-1.png" class="r-plt" alt="" width="100%"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
