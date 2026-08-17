@@ -100,6 +100,23 @@ clinical <- data.frame(
 plot_oncoprint(variants, top_n = 5, annotation = clinical)
 
 }
+\references{
+Gao J, Aksoy BA, Dogrusoz U, et al. (2013). Integrative analysis of
+complex cancer genomics and clinical profiles using the cBioPortal.
+\emph{Science Signaling}, 6(269), pl1. \doi{10.1126/scisignal.2004088}
+
+Skidmore ZL, Wagner AH, Lesurf R, et al. (2016). GenVisR: Genomic
+Visualizations in R. \emph{Bioinformatics}, 32(19), 3012-3014.
+\doi{10.1093/bioinformatics/btw325}
+
+Gu Z, Eils R, Schlesner M (2016). Complex heatmaps reveal patterns and
+correlations in multidimensional genomic data. \emph{Bioinformatics},
+32(18), 2847-2849. \doi{10.1093/bioinformatics/btw313}
+
+Mayakonda A, Lin DC, Assenov Y, Plass C, Koeffler HP (2018). Maftools:
+efficient and comprehensive analysis of somatic variants in cancer.
+\emph{Genome Research}, 28(11), 1747-1756. \doi{10.1101/gr.239244.118}
+}
 \seealso{
 \code{\link[=plot_tmb]{plot_tmb()}}, \code{\link[=plot_consequence_summary]{plot_consequence_summary()}}, \code{\link[=gv_palette]{gv_palette()}}
 

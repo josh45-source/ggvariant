@@ -1,137 +1,106 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
 # ggvariant <a href="https://josh45-source.github.io/ggvariant/"><img src="man/figures/logo.png" align="right" height="120" alt="ggvariant website" /></a>
 
 <!-- badges: start -->
+
 [![R-CMD-check](https://github.com/josh45-source/ggvariant/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/josh45-source/ggvariant/actions/workflows/R-CMD-check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/josh45-source/ggvariant/branch/master/graph/badge.svg)](https://app.codecov.io/gh/josh45-source/ggvariant)
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![Codecov test
+coverage](https://codecov.io/gh/josh45-source/ggvariant/branch/master/graph/badge.svg)](https://app.codecov.io/gh/josh45-source/ggvariant)
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-> **Publication-ready genomic variant plots in a few lines of R.**
-
-`ggvariant` fills a gap in the Bioconductor/CRAN ecosystem: a simple,
-ggplot2-native package that takes you directly from a **VCF file or data
-frame** to beautiful, customisable variant visualisations — without wrestling
-with complex APIs or writing 50-line wrangling scripts.
-
----
-
-## The gap this fills
-
-| Need | Existing options | The problem |
-|---|---|---|
-| Lollipop plots | Gviz, karyoploteR | Very steep learning curve |
-| Consequence summaries | maftools | Tightly coupled to MAF / cancer genomics |
-| Mutational spectra | MutationalPatterns | Heavyweight; requires BSgenome |
-| General VCF → ggplot | — | **Nothing simple exists** |
-
-`ggvariant` gives both wet-lab biologists and experienced bioinformaticians
-the same clean, ggplot2-idiomatic entry point.
-
----
+ggvariant reads variant data from a VCF file or a plain data frame and
+produces `ggplot2` plots for common tasks in variant review: lollipop
+plots of variant position along a gene, consequence summaries by sample
+or gene, mutational spectrum charts, and cohort-level comparisons such
+as oncoprints and per-sample mutation burden. Every function accepts
+either input format and returns a standard `ggplot` object, so the
+result composes with any `ggplot2` layer, scale, or theme you already
+use. Designed for both wet-lab biologists and experienced
+bioinformaticians.
 
 ## Installation
 
-```r
-# Install from GitHub (once released)
+Install the released version from CRAN:
+
+``` r
+install.packages("ggvariant")
+```
+
+Install the development version from GitHub:
+
+``` r
 # install.packages("remotes")
 remotes::install_github("josh45-source/ggvariant")
 ```
 
----
+## Example
 
-## Quick start
+Read a VCF file and plot variant positions along a gene:
 
-```r
+``` r
 library(ggvariant)
 
-# 1. Load a VCF file
-variants <- read_vcf("my_variants.vcf")
+vcf_file <- system.file("extdata", "example.vcf", package = "ggvariant")
+variants <- read_vcf(vcf_file)
 
-# 2. If you have a data frame instead (e.g. from Excel)
-variants <- coerce_variants(my_df,
-  chrom = "Chr", pos = "Position",
-  ref   = "Ref", alt = "Alt",
-  gene  = "Gene", sample = "SampleID"
-)
-```
-
----
-
-## Core plots
-
-### Lollipop plot — variants along a gene
-
-```r
 plot_lollipop(variants, gene = "TP53")
 ```
 
-Add protein domain annotations:
+<img src="man/figures/README-example-1.png" alt="" width="100%" />
 
-```r
-tp53_domains <- data.frame(
-  name  = c("Transactivation", "DNA-binding", "Tetramerization"),
-  start = c(1,   102, 323),
-  end   = c(67,  292, 356)
-)
+If your data is already in a data frame — a spreadsheet export, say,
+rather than a VCF file — `coerce_variants()` maps your column names onto
+the same tidy format instead.
 
-plot_lollipop(variants, gene = "TP53", domains = tp53_domains)
+## Overview
+
+- **Reading and coercing variants** — `read_vcf()` parses VCF v4.x
+  files, including gzipped and multi-sample files, and extracts SnpEff
+  (`ANN`) or VEP (`CSQ`) annotations automatically. `coerce_variants()`
+  remaps an existing data frame’s columns onto the same format.
+- **Plots** — `plot_lollipop()`, `plot_consequence_summary()`,
+  `plot_variant_spectrum()`, `plot_oncoprint()` (also
+  `plot_waterfall()`, an alias for the same function), and `plot_tmb()`.
+- **Palettes and themes** — `gv_palette()` and `theme_ggvariant()`
+  expose the built-in colours and plot theme for reuse in plots you
+  build yourself.
+
+A few of the other plot types, on the same example data:
+
+``` r
+plot_consequence_summary(variants, group_by = "gene", top_n = 6)
 ```
 
-Colour by sample instead of consequence:
+<img src="man/figures/README-consequence-summary-1.png" alt="" width="100%" />
 
-```r
-plot_lollipop(variants, gene = "TP53", color_by = "sample")
-```
-
----
-
-### Consequence summary
-
-```r
-# Stacked bar by sample
-plot_consequence_summary(variants)
-
-# Proportional
-plot_consequence_summary(variants, position = "fill")
-
-# Top 10 mutated genes
-plot_consequence_summary(variants, group_by = "gene", top_n = 10)
-```
-
----
-
-### Mutational spectrum
-
-```r
-# 6-class SBS spectrum
+``` r
 plot_variant_spectrum(variants)
-
-# Faceted by sample
-plot_variant_spectrum(variants, facet_by_sample = TRUE)
-
-# Raw counts, not proportions
-plot_variant_spectrum(variants, normalize = FALSE)
 ```
 
----
+<img src="man/figures/README-spectrum-1.png" alt="" width="100%" />
 
-## Interactive plots
-
-All plot functions accept `interactive = TRUE` to return a `plotly` object
-for sharing with collaborators who don't use R:
-
-```r
-plot_lollipop(variants, gene = "BRCA1", interactive = TRUE)
+``` r
+plot_oncoprint(variants, top_n = 6)
 ```
 
----
+<img src="man/figures/README-oncoprint-1.png" alt="" width="100%" />
+
+See `vignette("ggvariant")` for a full walkthrough — domain annotations,
+colouring by sample, proportional and faceted views, interactive
+`plotly` output — or the [function
+reference](https://josh45-source.github.io/ggvariant/reference/) for
+argument details.
 
 ## Customisation
 
-Because every function returns a standard `ggplot` object, you can layer
-on any `ggplot2` or extension code:
+Every function returns a standard `ggplot` object, so any `ggplot2`
+layer, scale, or theme composes onto it directly:
 
-```r
+``` r
 library(ggplot2)
 
 plot_lollipop(variants, gene = "KRAS") +
@@ -140,46 +109,25 @@ plot_lollipop(variants, gene = "KRAS") +
   labs(subtitle = "KRAS mutations in cohort X")
 ```
 
-Access palettes directly:
-
-```r
-gv_palette("consequence")   # named hex vector
-gv_palette("spectrum")      # COSMIC SBS colours
-```
-
----
-
-## Design philosophy
-
-- **Minimal code** — one function call per plot type
-- **Two entry points** — VCF files *and* plain data frames
-- **ggplot2-native** — every plot is a `ggplot` object; extend freely
-- **Opinionated defaults** — looks good out of the box; no mandatory config
-- **Progressive disclosure** — simple API for novices, full control for experts
-
----
+<img src="man/figures/README-customise-1.png" alt="" width="100%" />
 
 ## Package structure
 
-```
-ggvariant/
-├── R/
-│   ├── ggvariant-package.R       # Package documentation
-│   ├── read_vcf.R                # read_vcf() and coerce_variants()
-│   ├── plot_lollipop.R           # plot_lollipop()
-│   ├── plot_functions.R          # plot_consequence_summary(), plot_variant_spectrum()
-│   └── utils.R                   # Theme, palettes, shared helpers
-├── tests/
-│   └── testthat/
-│       └── test-core.R           # Unit tests
-├── inst/
-│   └── extdata/
-│       └── example.vcf           # Bundled example VCF
-├── DESCRIPTION
-└── NAMESPACE
-```
-
----
+    ggvariant/
+    ├── R/
+    │   ├── ggvariant-package.R       # Package documentation
+    │   ├── read_vcf.R                # read_vcf() and coerce_variants()
+    │   ├── plot_lollipop.R           # plot_lollipop()
+    │   ├── plot_functions.R          # plot_consequence_summary(), plot_variant_spectrum()
+    │   └── utils.R                   # Theme, palettes, shared helpers
+    ├── tests/
+    │   └── testthat/
+    │       └── test-core.R           # Unit tests
+    ├── inst/
+    │   └── extdata/
+    │       └── example.vcf           # Bundled example VCF
+    ├── DESCRIPTION
+    └── NAMESPACE
 
 ## Roadmap
 
@@ -187,15 +135,19 @@ ggvariant/
 - [ ] `plot_copy_number()` — CNV segment visualisation
 - [ ] `plot_rainfall()` — kataegis / mutation density along genome
 - [ ] `plot_tmb()` — tumour mutation burden comparison across cohorts
-- [ ] BSgenome integration for automatic trinucleotide context extraction
+- [ ] BSgenome integration for automatic trinucleotide context
+  extraction
 - [ ] Shiny module for non-coding users
-
----
 
 ## Contributing
 
-Pull requests are welcome. Please open an issue first to discuss proposed
-changes. All contributions should include tests.
+Pull requests are welcome. Please open an issue first to discuss
+proposed changes. All contributions should include tests.
+
+## Acknowledgements
+
+The waterfall/oncoprint visualisation in v0.2.0 was suggested by Dr
+Nour-al-dain Marzouka.
 
 ## License
 

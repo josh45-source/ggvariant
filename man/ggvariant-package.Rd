@@ -8,7 +8,16 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-A simple, opinionated toolkit for visualizing genomic variant data using a 'ggplot2'-native grammar. Accepts VCF files or plain data frames and produces publication-ready lollipop plots, consequence summaries, mutational spectrum charts, and cohort-level comparisons with minimal code. Designed for both wet-lab biologists and experienced bioinformaticians.
+A simple, opinionated toolkit for visualizing genomic variant data using a 'ggplot2'-native grammar. Accepts VCF files or plain data frames and produces lollipop plots, consequence summaries, mutational spectrum charts, and cohort-level comparisons as standard 'ggplot2' objects. Designed for both wet-lab biologists and experienced bioinformaticians.
+}
+\references{
+Danecek P, Auton A, Abecasis G, et al.; 1000 Genomes Project Analysis
+Group (2011). The variant call format and VCFtools. \emph{Bioinformatics},
+27(15), 2156-2158. \doi{10.1093/bioinformatics/btr330}
+
+Alexandrov LB, Kim J, Haradhvala NJ, et al.; PCAWG Consortium (2020).
+The repertoire of mutational signatures in human cancer. \emph{Nature},
+578(7793), 94-101. \doi{10.1038/s41586-020-1943-3}
 }
 \seealso{
 Useful links:

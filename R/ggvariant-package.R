@@ -4,6 +4,15 @@
 #' @name ggvariant-package
 #' @aliases ggvariant
 #'
+#' @references
+#' Danecek P, Auton A, Abecasis G, et al.; 1000 Genomes Project Analysis
+#' Group (2011). The variant call format and VCFtools. *Bioinformatics*,
+#' 27(15), 2156-2158. \doi{10.1093/bioinformatics/btr330}
+#'
+#' Alexandrov LB, Kim J, Haradhvala NJ, et al.; PCAWG Consortium (2020).
+#' The repertoire of mutational signatures in human cancer. *Nature*,
+#' 578(7793), 94-101. \doi{10.1038/s41586-020-1943-3}
+#'
 #' @importFrom stats aggregate ave setNames na.omit
 #' @importFrom utils tail head
 #' @importFrom grDevices colorRampPalette
