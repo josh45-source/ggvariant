@@ -39,6 +39,12 @@
 #' # Aligned to a specific sample order, e.g. from plot_oncoprint()
 #' plot_tmb(variants, sample_order = c("TUMOR_S1", "TUMOR_S2"))
 #'
+#' @references
+#' Chalmers ZR, Connelly CF, Fabrizio D, et al. (2017). Analysis of
+#' 100,000 human cancer genomes reveals the landscape of tumor
+#' mutational burden. *Genome Medicine*, 9(1), 34.
+#' \doi{10.1186/s13073-017-0424-2}
+#'
 #' @family ggvariant plots
 #' @seealso [plot_oncoprint()], [gv_palette()]
 #' @export

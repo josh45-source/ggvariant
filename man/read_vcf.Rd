@@ -45,6 +45,20 @@ variants <- read_vcf(vcf_file)
 head(variants)
 
 }
+\references{
+Danecek P, Auton A, Abecasis G, et al.; 1000 Genomes Project Analysis
+Group (2011). The variant call format and VCFtools. \emph{Bioinformatics},
+27(15), 2156-2158. \doi{10.1093/bioinformatics/btr330}
+
+Cingolani P, Platts A, Wang LL, et al. (2012). A program for annotating
+and predicting the effects of single nucleotide polymorphisms, SnpEff:
+SNPs in the genome of \emph{Drosophila melanogaster} strain w1118; iso-2;
+iso-3. \emph{Fly}, 6(2), 80-92. \doi{10.4161/fly.19695}
+
+McLaren W, Gil L, Hunt SE, et al. (2016). The Ensembl Variant Effect
+Predictor. \emph{Genome Biology}, 17(1), 122.
+\doi{10.1186/s13059-016-0974-4}
+}
 \seealso{
 \code{\link[=coerce_variants]{coerce_variants()}}, \code{\link[=plot_lollipop]{plot_lollipop()}}, \code{\link[=plot_consequence_summary]{plot_consequence_summary()}}
 

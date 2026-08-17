@@ -63,6 +63,16 @@ plot_variant_spectrum(variants)
 plot_variant_spectrum(variants, facet_by_sample = TRUE)
 
 }
+\references{
+Alexandrov LB, Kim J, Haradhvala NJ, et al.; PCAWG Consortium (2020).
+The repertoire of mutational signatures in human cancer. \emph{Nature},
+578(7793), 94-101. \doi{10.1038/s41586-020-1943-3}
+
+Blokzijl F, Janssen R, van Boxtel R, Cuppen E (2018).
+MutationalPatterns: comprehensive genome-wide analysis of mutational
+processes. \emph{Genome Medicine}, 10(1), 33.
+\doi{10.1186/s13073-018-0539-0}
+}
 \seealso{
 \code{\link[=plot_lollipop]{plot_lollipop()}}, \code{\link[=plot_consequence_summary]{plot_consequence_summary()}}, \code{\link[=gv_palette]{gv_palette()}}
 

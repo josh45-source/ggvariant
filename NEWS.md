@@ -9,7 +9,8 @@
   memo-sort/cascade algorithm for the characteristic staircase pattern.
   Multi-hit cells (a gene mutated more than once in one sample) render as a
   distinct `"Multi_Hit"` category. Supports an optional clinical annotation
-  track from a sample-metadata data frame.
+  track from a sample-metadata data frame. Suggested by Nour-al-dain
+  Marzouka (#N).
 * Added `plot_tmb()`: a per-sample tumour mutational burden bar chart, raw
   counts or normalised to mutations/Mb.
 * `read_vcf()`'s `gvf` objects now have real `print.gvf()` and

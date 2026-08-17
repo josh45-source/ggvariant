@@ -61,6 +61,12 @@ plot_tmb(variants, mb_size = 38)
 plot_tmb(variants, sample_order = c("TUMOR_S1", "TUMOR_S2"))
 
 }
+\references{
+Chalmers ZR, Connelly CF, Fabrizio D, et al. (2017). Analysis of
+100,000 human cancer genomes reveals the landscape of tumor
+mutational burden. \emph{Genome Medicine}, 9(1), 34.
+\doi{10.1186/s13073-017-0424-2}
+}
 \seealso{
 \code{\link[=plot_oncoprint]{plot_oncoprint()}}, \code{\link[=gv_palette]{gv_palette()}}
 
