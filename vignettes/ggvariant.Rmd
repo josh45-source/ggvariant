@@ -188,8 +188,7 @@ COSMIC convention).
 plot_variant_spectrum(variants)
 ```
 
-A dominant C>T signature, as seen here, is characteristic of UV damage or
-age-related deamination — common in many tumour types.
+C>T substitutions are the most common class in this example. In real data, a strongly C>T-dominant spectrum can point to processes such as UV damage or age-related deamination, though interpreting a signature reliably requires many more mutations than this small example contains.
 
 ### Faceted by sample
 
