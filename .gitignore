@@ -11,3 +11,5 @@ Rplot*.pdf
 ggvariant_*.tar.gz
 docs
 .devscratch/
+
+AUDIT.md
