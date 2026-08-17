@@ -8,7 +8,7 @@ library(ggplot2)
 vcf_file <- system.file("extdata", "example.vcf", package = "ggvariant")
 variants <- read_vcf(vcf_file)
 #> ℹ Reading VCF: example.vcf
-#> ✔ Reading VCF: example.vcf [28ms]
+#> ✔ Reading VCF: example.vcf [24ms]
 #> 
 #> Loaded 19 variant records across 7 chromosomes.
 ```

@@ -105,7 +105,7 @@ Other ggvariant input:
 vcf_file <- system.file("extdata", "example.vcf", package = "ggvariant")
 variants <- read_vcf(vcf_file)
 #> ℹ Reading VCF: example.vcf
-#> ✔ Reading VCF: example.vcf [12ms]
+#> ✔ Reading VCF: example.vcf [10ms]
 #> 
 #> Loaded 19 variant records across 7 chromosomes.
 head(variants)
