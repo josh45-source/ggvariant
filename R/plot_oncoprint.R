@@ -43,7 +43,11 @@
 #'   annotation tracks.
 #' @param palette Named character vector of colours keyed by consequence.
 #'   `NULL` uses the built-in `gv_palette("consequence")`. If it does not
-#'   already contain a `"Multi_Hit"` entry, one is added automatically.
+#'   already contain `"Multi_Hit"` or `"Other"` entries, they are added
+#'   automatically. Consequence terms not present among the names of
+#'   `gv_palette("consequence")` (e.g. a VEP/SnpEff term outside this
+#'   package's curated list) are shown under `"Other"` rather than being
+#'   dropped.
 #' @param interactive Logical. Returns a `plotly` object if `TRUE`.
 #'
 #' @return A `ggplot` object (or a `plotly` object when `interactive = TRUE`).
@@ -132,6 +136,7 @@ plot_oncoprint <- function(variants,
 
   pal <- palette %||% .consequence_palette()
   if (!"Multi_Hit" %in% names(pal)) pal <- c(pal, Multi_Hit = "grey15")
+  if (!"Other" %in% names(pal)) pal <- c(pal, Other = "#7F7F7F")
 
   n_genes  <- length(gene_order)
   y_breaks <- rev(seq_len(n_genes))
@@ -251,10 +256,16 @@ plot_waterfall <- plot_oncoprint
     full$label <- NA_character_
   }
 
+  # Explicit factors (rather than relying on input row order or a numeric
+  # lookup keyed by character values) so row/column order is provably tied
+  # to the computed gene-frequency/cascade ranking, not incidental to how
+  # `variants` happened to arrive.
+  full$gene   <- factor(full$gene,   levels = gene_order)
+  full$sample <- factor(full$sample, levels = sample_order)
+
   n_genes <- length(gene_order)
-  gene_y  <- stats::setNames(rev(seq_len(n_genes)), gene_order)
-  full$y  <- gene_y[full$gene]
-  full$x  <- factor(full$sample, levels = sample_order)
+  full$y  <- n_genes + 1L - as.integer(full$gene)
+  full$x  <- full$sample
   full
 }
 

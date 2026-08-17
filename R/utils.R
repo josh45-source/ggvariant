@@ -2,6 +2,11 @@
 #'
 #' Access the built-in colour palettes used by `ggvariant` plot functions.
 #'
+#' The `"consequence"` palette covers the most common VEP/SnpEff/MAF
+#' consequence terms; any other term is standardised to an `"Other"` bucket
+#' (its own entry in this palette) by plot functions rather than being
+#' dropped.
+#'
 #' @param type One of `"consequence"` (default), `"spectrum"`, or `"domain"`.
 #' @param n Integer. For `"domain"`, the number of colours to generate.
 #'
@@ -85,7 +90,8 @@ theme_ggvariant <- function(base_size = 12, base_family = "") {
     "SNV"                      = "#BDBDBD",
     "deletion"                 = "#41AB5D",
     "insertion"                = "#A1D99B",
-    "MNV"                      = "#F768A1"
+    "MNV"                      = "#F768A1",
+    "Other"                    = "#7F7F7F"
   )
 }
 
@@ -141,8 +147,15 @@ theme_ggvariant <- function(base_size = 12, base_family = "") {
     "In_Frame_Del"       = "inframe_deletion",
     "In_Frame_Ins"       = "inframe_insertion"
   )
-  # Preserve unmatched values
   x <- ifelse(x %in% names(lut), lut[x], x)
+  # Any term that still isn't one of the palette's known classes (e.g. a VEP/
+  # SnpEff consequence outside this package's curated list) collapses to the
+  # visible "Other" bucket rather than falling through to an unmapped colour
+  # scale value, which ggplot2 silently renders as NA -- indistinguishable
+  # from a genuinely unmutated cell. True missing consequence (NA) is left as
+  # NA; only *present-but-unrecognised* values become "Other".
+  known <- names(.consequence_palette())
+  x[!is.na(x) & !(x %in% known)] <- "Other"
   x
 }
 

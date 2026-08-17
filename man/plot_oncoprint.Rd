@@ -47,7 +47,11 @@ annotation tracks.}
 
 \item{palette}{Named character vector of colours keyed by consequence.
 \code{NULL} uses the built-in \code{gv_palette("consequence")}. If it does not
-already contain a \code{"Multi_Hit"} entry, one is added automatically.}
+already contain \code{"Multi_Hit"} or \code{"Other"} entries, they are added
+automatically. Consequence terms not present among the names of
+\code{gv_palette("consequence")} (e.g. a VEP/SnpEff term outside this
+package's curated list) are shown under \code{"Other"} rather than being
+dropped.}
 
 \item{interactive}{Logical. Returns a \code{plotly} object if \code{TRUE}.}
 }

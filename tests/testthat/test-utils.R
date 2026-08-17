@@ -34,3 +34,15 @@ test_that("theme_ggvariant composes onto a ggplot", {
   built <- ggplot2::ggplot_build(p)
   expect_s3_class(built, "ggplot_built")
 })
+
+test_that("gv_palette('consequence') includes an Other fallback colour", {
+  pal <- gv_palette("consequence")
+  expect_true("Other" %in% names(pal))
+  expect_true(grepl("^#[0-9A-Fa-f]{6}$", pal[["Other"]]))
+})
+
+test_that(".standardise_consequence collapses unrecognised terms to Other but preserves NA", {
+  x   <- c("missense_variant", "upstream_gene_variant", NA, "Silent", "intergenic_variant")
+  out <- ggvariant:::.standardise_consequence(x)
+  expect_equal(out, c("missense_variant", "Other", NA, "synonymous_variant", "Other"))
+})

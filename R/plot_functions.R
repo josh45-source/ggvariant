@@ -50,6 +50,7 @@ plot_consequence_summary <- function(variants,
     variants <- variants[variants$sample %in% samples, ]
 
   pal <- palette %||% .consequence_palette()
+  if (!"Other" %in% names(pal)) pal <- c(pal, Other = "#7F7F7F")
 
   if (group_by == "consequence") {
     # X = sample (or "All" if no sample column), fill = consequence
