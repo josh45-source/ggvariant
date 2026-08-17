@@ -3,6 +3,10 @@ template:
   bootstrap: 5
 
 reference:
+- title: Package overview
+  contents:
+  - ggvariant-package
+
 - title: Reading and coercing variants
   desc: >
     Get variant data into the tidy `gvf` format every `ggvariant` plot
