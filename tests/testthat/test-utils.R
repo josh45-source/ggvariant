@@ -46,3 +46,21 @@ test_that(".standardise_consequence collapses unrecognised terms to Other but pr
   out <- ggvariant:::.standardise_consequence(x)
   expect_equal(out, c("missense_variant", "Other", NA, "synonymous_variant", "Other"))
 })
+
+test_that(".standardise_consequence respects a caller-supplied `known` set", {
+  # plot_oncoprint()'s narrower known set collapses terms that ARE named
+  # entries in the default palette (e.g. intron_variant) if they aren't
+  # among the handful of core classes it distinguishes.
+  known <- ggvariant:::.oncoprint_known_consequences()
+  expect_setequal(
+    known,
+    c("missense_variant", "stop_gained", "frameshift_variant",
+      "synonymous_variant", "Multi_Hit")
+  )
+
+  x   <- c("missense_variant", "intron_variant", "splice_site_variant", "Silent")
+  out <- ggvariant:::.standardise_consequence(x, known = known)
+  # Silent -> synonymous_variant via the alias LUT, which IS in the narrow
+  # known set, so it survives; intron_variant/splice_site_variant do not.
+  expect_equal(out, c("missense_variant", "Other", "Other", "synonymous_variant"))
+})

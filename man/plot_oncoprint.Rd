@@ -48,10 +48,12 @@ annotation tracks.}
 \item{palette}{Named character vector of colours keyed by consequence.
 \code{NULL} uses the built-in \code{gv_palette("consequence")}. If it does not
 already contain \code{"Multi_Hit"} or \code{"Other"} entries, they are added
-automatically. Consequence terms not present among the names of
-\code{gv_palette("consequence")} (e.g. a VEP/SnpEff term outside this
-package's curated list) are shown under \code{"Other"} rather than being
-dropped.}
+automatically. Unlike \code{\link[=plot_consequence_summary]{plot_consequence_summary()}}, which shows the
+full breakdown of consequence types, \code{plot_oncoprint()} only
+distinguishes \code{missense_variant}, \code{stop_gained}, \code{frameshift_variant},
+\code{synonymous_variant}, and \code{Multi_Hit} by colour (plus their common MAF/
+SnpEff aliases, e.g. \code{Missense_Mutation}); every other consequence term
+is shown under \code{"Other"} rather than being dropped.}
 
 \item{interactive}{Logical. Returns a \code{plotly} object if \code{TRUE}.}
 }

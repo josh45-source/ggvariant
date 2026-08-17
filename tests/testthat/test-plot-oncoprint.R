@@ -112,25 +112,39 @@ test_that("plot_oncoprint snapshot is stable", {
   vdiffr::expect_doppelganger("oncoprint-top5", plot_oncoprint(vf, top_n = 5))
 })
 
-test_that("an unmapped consequence term renders as a visible Other cell, not NA", {
+test_that("consequences outside plot_oncoprint's core set collapse into one Other, not NA", {
+  # intron_variant and splice_region_variant are each mapped to their own
+  # colour in gv_palette("consequence") (for plot_consequence_summary()'s
+  # more detailed breakdown), but plot_oncoprint() only distinguishes
+  # missense_variant/stop_gained/frameshift_variant/synonymous_variant/
+  # Multi_Hit by colour -- everything else, including these two, must
+  # collapse into a single shared "Other", not keep separate palette entries
+  # and not fall through to an unmapped (NA) fill.
   df <- data.frame(
     chrom = "chr1", pos = 1:4, ref = "A", alt = "T",
     gene   = c("TP53", "TP53", "BRCA1", "BRCA1"),
     sample = c("S01", "S02", "S01", "S02"),
-    consequence = c("missense_variant", "upstream_gene_variant",
-                    "intergenic_variant", "stop_gained"),
+    consequence = c("missense_variant", "intron_variant",
+                    "splice_region_variant", "stop_gained"),
     stringsAsFactors = FALSE
   )
   vf <- coerce_variants(df)
   p <- plot_oncoprint(vf, top_n = 2)
   built <- ggplot2::ggplot_build(p)
 
-  # the two unmapped terms are standardised to "Other" ...
-  expect_equal(sum(built$plot$data$label == "Other", na.rm = TRUE), 2L)
-  # ... and get a real, non-missing fill colour, not the NA used for
-  # genuinely unmutated cells
+  # exactly 3 distinct non-NA labels: the two core terms plus one Other
+  expect_setequal(
+    unique(stats::na.omit(built$plot$data$label)),
+    c("missense_variant", "Other", "stop_gained")
+  )
+  expect_false(any(built$plot$data$label %in%
+                      c("intron_variant", "splice_region_variant")))
+
+  # both unmapped terms share the exact same fill colour (one legend entry),
+  # and it's a real colour, not the NA used for genuinely unmutated cells
   other_fill <- built$data[[1]]$fill[built$plot$data$label == "Other"]
   expect_false(anyNA(other_fill))
+  expect_length(unique(other_fill), 1L)
   expect_equal(unique(other_fill), unname(gv_palette("consequence")["Other"]))
 
   # x-axis sample labels must still render regardless of the unmapped terms

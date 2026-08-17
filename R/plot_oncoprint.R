@@ -44,10 +44,12 @@
 #' @param palette Named character vector of colours keyed by consequence.
 #'   `NULL` uses the built-in `gv_palette("consequence")`. If it does not
 #'   already contain `"Multi_Hit"` or `"Other"` entries, they are added
-#'   automatically. Consequence terms not present among the names of
-#'   `gv_palette("consequence")` (e.g. a VEP/SnpEff term outside this
-#'   package's curated list) are shown under `"Other"` rather than being
-#'   dropped.
+#'   automatically. Unlike [plot_consequence_summary()], which shows the
+#'   full breakdown of consequence types, `plot_oncoprint()` only
+#'   distinguishes `missense_variant`, `stop_gained`, `frameshift_variant`,
+#'   `synonymous_variant`, and `Multi_Hit` by colour (plus their common MAF/
+#'   SnpEff aliases, e.g. `Missense_Mutation`); every other consequence term
+#'   is shown under `"Other"` rather than being dropped.
 #' @param interactive Logical. Returns a `plotly` object if `TRUE`.
 #'
 #' @return A `ggplot` object (or a `plotly` object when `interactive = TRUE`).
@@ -248,7 +250,8 @@ plot_waterfall <- plot_oncoprint
       stringsAsFactors = FALSE
     )
     hits$label <- ifelse(hits$n > 1L, "Multi_Hit",
-                          .standardise_consequence(hits$consequence))
+                          .standardise_consequence(hits$consequence,
+                                                    known = .oncoprint_known_consequences()))
     full$key   <- paste(full$gene, full$sample, sep = "\r")
     full$label <- hits$label[match(full$key, hits$key)]
     full$key   <- NULL
