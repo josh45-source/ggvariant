@@ -180,7 +180,7 @@ plot_oncoprint <- function(variants,
     ggplot2::scale_y_continuous(
       breaks = y_breaks_all, labels = y_labels_all, expand = c(0, 0)
     ) +
-    ggplot2::labs(title = "Oncoprint", x = NULL, y = NULL) +
+    ggplot2::labs(title = "Oncoprint / Waterfall", x = NULL, y = NULL) +
     .ggvariant_theme() +
     ggplot2::theme(
       panel.grid  = ggplot2::element_blank(),

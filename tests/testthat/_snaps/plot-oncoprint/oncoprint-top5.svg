@@ -61,6 +61,6 @@
 <text x='620.99' y='270.39' style='font-size: 10.20px; font-family: sans;' textLength='25.51px' lengthAdjust='spacingAndGlyphs'>Other</text>
 <text x='620.99' y='287.67' style='font-size: 10.20px; font-family: sans;' textLength='81.08px' lengthAdjust='spacingAndGlyphs'>frameshift_variant</text>
 <text x='620.99' y='304.95' style='font-size: 10.20px; font-family: sans;' textLength='79.39px' lengthAdjust='spacingAndGlyphs'>missense_variant</text>
-<text x='58.72' y='21.45' style='font-size: 13.80px; font-weight: bold; font-family: sans;' textLength='59.84px' lengthAdjust='spacingAndGlyphs'>Oncoprint</text>
+<text x='58.72' y='21.45' style='font-size: 13.80px; font-weight: bold; font-family: sans;' textLength='125.78px' lengthAdjust='spacingAndGlyphs'>Oncoprint / Waterfall</text>
 </g>
 </svg>

@@ -47,7 +47,7 @@
 <text x='155.62' y='549.26' text-anchor='middle' style='font-size: 10.20px; fill: #4D4D4D; font-family: sans;' textLength='45.38px' lengthAdjust='spacingAndGlyphs'>2,000,000</text>
 <text x='299.29' y='549.26' text-anchor='middle' style='font-size: 10.20px; fill: #4D4D4D; font-family: sans;' textLength='45.38px' lengthAdjust='spacingAndGlyphs'>4,000,000</text>
 <text x='442.95' y='549.26' text-anchor='middle' style='font-size: 10.20px; fill: #4D4D4D; font-family: sans;' textLength='45.38px' lengthAdjust='spacingAndGlyphs'>6,000,000</text>
-<text x='289.63' y='561.80' text-anchor='middle' style='font-size: 10.80px; fill: #4D4D4D; font-family: sans;' textLength='93.66px' lengthAdjust='spacingAndGlyphs'>Amino acid position</text>
+<text x='289.63' y='561.80' text-anchor='middle' style='font-size: 10.80px; fill: #4D4D4D; font-family: sans;' textLength='83.46px' lengthAdjust='spacingAndGlyphs'>Genomic position</text>
 <text x='585.23' y='259.38' style='font-size: 10.80px; font-weight: bold; font-family: sans;' textLength='66.67px' lengthAdjust='spacingAndGlyphs'>Consequence</text>
 <circle cx='593.87' cy='275.12' r='4.12' style='stroke-width: 0.77; stroke: #FD8D3C; stroke-opacity: 0.90; fill: #FD8D3C; fill-opacity: 0.90;' />
 <circle cx='593.87' cy='292.40' r='4.12' style='stroke-width: 0.77; stroke: #800026; stroke-opacity: 0.90; fill: #800026; fill-opacity: 0.90;' />

@@ -90,6 +90,10 @@ plot_waterfall(cohort_variants, top_n = 10, annotation = clinical_stage)
 
 ## Tumour mutational burden
 
+Reusing the same illustrative synthetic cohort from the oncoprint example
+above gives a more realistic view of per-sample burden across 28 samples
+than the two-sample example VCF would:
+
 ```{r tmb}
-plot_tmb(variants)
+plot_tmb(cohort_variants)
 ```

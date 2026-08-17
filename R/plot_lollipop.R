@@ -21,7 +21,12 @@
 #' @param palette Named character vector of colours for each consequence/sample
 #'   category. `NULL` uses the built-in `ggvariant` palette.
 #' @param protein_length Integer. Total length of the protein in amino acids,
-#'   used to scale the x-axis. If `NULL`, inferred from `max(pos)`.
+#'   used to scale the x-axis. If `NULL` (default), inferred from `max(pos)`
+#'   and the x-axis is labelled "Genomic position", since `pos` is assumed to
+#'   be a raw genomic coordinate. Supplying `protein_length` is taken as a
+#'   signal that `pos` has already been rescaled to protein coordinates (as
+#'   in the `@examples` below), and labels the x-axis "Amino acid position"
+#'   instead.
 #' @param stack_dots Logical. If `TRUE` (default), dots at the same position
 #'   are stacked vertically (beeswarm-style) rather than overlapping.
 #' @param title Character. Plot title. Defaults to the gene name.
@@ -97,6 +102,11 @@ plot_lollipop <- function(variants,
 
   x_max <- protein_length %||% max(variants$pos, na.rm = TRUE)
   plot_title <- title %||% if (!is.null(gene)) paste(gene, "variants") else "Variant lollipop"
+  # `pos` is a raw genomic coordinate unless the caller has already rescaled
+  # it into protein space themselves -- an explicit `protein_length` is that
+  # signal (it's meaningless otherwise), so only then is "Amino acid
+  # position" accurate. Inferring x_max from max(pos) is not such a signal.
+  x_lab <- if (!is.null(protein_length)) "Amino acid position" else "Genomic position"
 
   p <- ggplot2::ggplot(variants,
          ggplot2::aes(x = .data$pos, y = .data$y_pos,
@@ -127,7 +137,7 @@ plot_lollipop <- function(variants,
     ggplot2::scale_y_continuous(breaks = NULL) +
     ggplot2::labs(
       title = plot_title,
-      x     = "Amino acid position",
+      x     = x_lab,
       y     = NULL
     ) +
     .ggvariant_theme()
